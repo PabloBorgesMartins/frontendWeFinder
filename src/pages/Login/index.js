@@ -90,7 +90,7 @@ const Login = () => {
                 onPress={goToSignUp}
                 underlayColor={colorSection}
                 activeOpacity={0.3}>
-                <Text style={styles.fonteCadaster}>Cadastre-se</Text>
+                <Text style={styles.fonteCadaster}>CADASTRE-SE</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -168,7 +168,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'MavenPro-Regular',
     borderRadius: 5,
-    borderColor: '#45D0C1',
   },
 
   fonteCadaster: {
