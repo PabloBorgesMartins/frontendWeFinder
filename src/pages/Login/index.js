@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState, useCallback} from 'react';
 import {
   ActivityIndicator,
   StatusBar,
@@ -20,30 +20,71 @@ import {
 } from 'react-native-responsive-screen';
 import {Input, Button} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import * as Yup from 'yup';
+import getValidationErrors from '../../utils/getValidationErrors';
+
 
 import avatar from '../../../assets/images/avatarWeFinder.png';
-import background from '../../../assets/images/loginBackground.png';
 
-import AuthContext from '../../contexto';
+
+import { useAuth } from '../../hooks/auth'
+
 
 const colorBase = '#5abdb8';
 const colorSection = '#2c2e2e';
 
 const Login = () => {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
-
-  const {signIn} = React.useContext(AuthContext);
 
   function goToSignUp() {
     navigation.navigate('SignUpEmail');
   }
 
-  function handleSignIn() {
-    navigation.navigate('tabHome');
-  }
+  const { signIn } = useAuth();
+
+  const handleSignIn = useCallback(
+    async () => {
+
+      const data = {
+        email: "jose@a.com",
+        password: "jds891jd919d1"
+      }
+
+      try {
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('Email obrigatório')
+            .email('Digite um email válido'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+
+        Alert.alert(
+          'Chegou no final!'
+        );
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+
+          return;
+        }
+
+        Alert.alert(
+          'Erro na autenticação',
+          'Ocorreu um erro ao fazer login, cheque suas credenciais'
+        );
+      }
+    }, [signIn]);
 
   return (
     <>

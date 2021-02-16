@@ -151,9 +151,9 @@ const styles = StyleSheet.create({
   },
 
   chatBox: {
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     padding: 10,
-    borderBottomWidth: 1,
+    borderBottomWidth: 2,
     height: 88,
     borderColor: colorBase,
     backgroundColor: boxColor,

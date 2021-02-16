@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,14 +7,15 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Alert
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Button} from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 const colorBase = '#5abdb8';
 const colorSection = '#2c2e2e';
@@ -22,7 +23,9 @@ const colorFont = '#adaeae';
 const colorInput = '#202223';
 const boxColor = '#3b3d3d';
 
-const isLeader = true;
+
+import { data } from './chat'
+
 
 const ChatScreen = () => {
   const [message, setMessage] = useState('');
@@ -33,84 +36,54 @@ const ChatScreen = () => {
     navigation.navigate('Profile');
   }
 
-  return (
-    <>
-      <View style={styles.background}>
-        <View style={styles.header}>
-          <Icon
-            onPress={() => navigation.goBack()}
-            name="arrow-left"
-            color={colorFont}
-            size={25}
-          />
 
-          <Text style={[styles.fontBig, {marginLeft: 20}]}>dBlackOwl</Text>
-        </View>
-        <View style={styles.body}>
-          <ScrollView>
-            <View style={styles.textBox}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.fontSmall}>15:38</Text>
-              </View>
-              <Text style={styles.fontBig}>dBlackOwl</Text>
-              <Text style={styles.fontSmall}>Bora marcar treino</Text>
-            </View>
-            <View style={styles.textBox}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.fontSmall}>15:40</Text>
-              </View>
-              <Text style={styles.fontBig2}>Pinga</Text>
-              <Text style={styles.fontSmall}>Bora man!</Text>
-            </View>
-            <View style={styles.textBox}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.fontSmall}>15:40</Text>
-              </View>
-              <Text style={styles.fontBig2}>Pinga</Text>
-              <Text style={styles.fontSmall}>
-                Adiciona minha conta la: Siga o Singed
-              </Text>
-            </View>
-            <View style={styles.textBox}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.fontSmall}>15:42</Text>
-              </View>
-              <Text style={styles.fontBig}>dBlackOwl</Text>
-              <Text style={styles.fontSmall}>Dmr, vou chamar</Text>
-            </View>
-            <View style={styles.textBox}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.fontSmall}>15:42</Text>
-              </View>
-              <Text style={styles.fontBig}>dBlackOwl</Text>
-              <Text style={styles.fontSmall}>O time ta completo?</Text>
-            </View>
-            <View style={styles.textBox}>
-              <View style={styles.timeContainer}>
-                <Text style={styles.fontSmall}>15:44</Text>
-              </View>
-              <Text style={styles.fontBig2}>Pinga</Text>
-              <Text style={styles.fontSmall}>Ta sim man</Text>
-            </View>
-          </ScrollView>
-        </View>
-        <View style={styles.footer}>
-          <TextInput
-            onChangeText={(text) => setMessage(text)}
-            style={styles.input}
-            placeholder="Escreva uma mensagem"
-            placeholderTextColor={colorFont}
-            selectionColor={colorBase}
-          />
-          <Icon
-            onPress={() => {}}
-            name="chevron-circle-right"
-            color={colorFont}
-            size={35}
-          />
-        </View>
+  return (
+    <View style={styles.background}>
+      <View style={styles.header}>
+        <Icon
+          onPress={() => navigation.goBack()}
+          name="arrow-left"
+          color={colorFont}
+          size={25}
+        />
+
+        <Text style={[styles.fontMedium, { marginLeft: 20 }]}>Pinga</Text>
       </View>
-    </>
+      <View style={styles.body}>
+        <ScrollView>
+          {
+            data.map((item) => {
+              if (item) {
+                return (
+                  <View style={item.isMy ? styles.textBoxMy : styles.textBox}>
+                    <View style={styles.timeContainer}>
+                      <Text style={styles.fontSmall}>{item.time}</Text>
+                    </View>
+                    <Text style={item.isMy ? styles.fontBigMy : styles.fontBig}>{item.user}</Text>
+                    <Text style={styles.fontSmall}>{item.message}</Text>
+                  </View>
+                )
+              }
+            })
+          }
+        </ScrollView>
+      </View>
+      <View style={styles.footer}>
+        <TextInput
+          onChangeText={(text) => setMessage(text)}
+          style={styles.input}
+          placeholder="Escreva uma mensagem"
+          placeholderTextColor={colorFont}
+          selectionColor={colorBase}
+        />
+        <Icon
+          onPress={() => { }}
+          name="chevron-circle-right"
+          color={colorFont}
+          size={35}
+        />
+      </View>
+    </View>
   );
 };
 
@@ -120,7 +93,7 @@ const styles = StyleSheet.create({
   fontSmall: {
     fontFamily: 'MavenPro-Bold',
     color: colorFont,
-    fontSize: 12,
+    fontSize: 14,
   },
 
   fontMedium: {
@@ -129,16 +102,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 
-  fontBig: {
+  fontBigMy: {
     fontFamily: 'MavenPro-Bold',
     color: colorBase,
     fontSize: 28,
+    marginBottom: 15
   },
 
-  fontBig2: {
+  fontBig: {
     fontFamily: 'MavenPro-Bold',
     color: 'white',
     fontSize: 28,
+    marginBottom: 15
   },
 
   background: {
@@ -150,10 +125,10 @@ const styles = StyleSheet.create({
   },
 
   header: {
-    height: 50,
     backgroundColor: 'black',
     width: wp('100%'),
     paddingHorizontal: 10,
+    paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
@@ -189,7 +164,16 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     marginBottom: 8,
-    height: 88,
+    marginRight: 40,
+    borderColor: colorBase,
+    backgroundColor: boxColor,
+  },
+
+  textBoxMy: {
+    borderRadius: 15,
+    padding: 10,
+    marginBottom: 8,
+    marginLeft: 40,
     borderColor: colorBase,
     backgroundColor: boxColor,
   },

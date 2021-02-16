@@ -8,14 +8,15 @@ import {
   ScrollView,
   Image,
   TouchableHighlight,
+  TouchableOpacity,
+  Button
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Button} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import avatar from '../../../assets/images/draven.jpg';
 
@@ -34,18 +35,19 @@ const Profile = () => {
 
   return (
     <View style={styles.background}>
-      <ScrollView>
+      <TouchableOpacity onPress={() => navigation.navigate('EditUser')} style={styles.iconEdit} onLongPress={() => navigation.navigate('EditUser')}>
         <Icon
-          onPress={() => goToEditProfile()}
-          style={styles.iconEdit}
           name="edit"
           color={colorBase}
           size={30}
         />
+      </TouchableOpacity>
+
+      <ScrollView>
 
         <View style={styles.header}>
           <Image source={avatar} style={styles.avatar} />
-          <Text style={[styles.fontBig, {color: colorBase}]}>dBlackOwl</Text>
+          <Text style={[styles.fontBig, { color: colorBase }]}>dBlackOwl</Text>
           <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
         </View>
 
@@ -100,11 +102,10 @@ const styles = StyleSheet.create({
 
   iconEdit: {
     position: 'absolute',
-    right: 5,
-    borderRadius: 2,
-    borderColor: colorFont,
-    borderWidth: 0,
-    padding: 8,
+    right: 0,
+    top: 0,
+    padding: 15,
+    backgroundColor: 'red',
   },
 
   header: {

@@ -24,7 +24,6 @@ import {useNavigation} from '@react-navigation/native';
 import avatar from '../../../assets/images/avatarWeFinder.png';
 import background from '../../../assets/images/loginBackground.png';
 
-import AuthContext from '../../contexto';
 
 const colorBase = '#5abdb8';
 const colorSection = '#2c2e2e';
@@ -36,7 +35,6 @@ const SignUpEmail = () => {
   const [password, setPassword] = React.useState('');
   const [passwordConfirmation, setPasswordConfirmation] = React.useState('');
 
-  const {signIn} = React.useContext(AuthContext);
 
   const navigation = useNavigation();
 
