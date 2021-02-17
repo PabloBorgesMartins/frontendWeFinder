@@ -11,14 +11,13 @@ import {
   TouchableOpacity,
   Button
 } from 'react-native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
-import avatar from '../../../assets/images/draven.jpg';
+import avatar from '../../../assets/images/rank/Diamond_1.png';
+
+import { useAuth } from '../../hooks/auth'
 
 const colorBase = '#5abdb8';
 const colorSection = '#2c2e2e';
@@ -28,20 +27,33 @@ const boxColor = '#3b3d3d';
 
 const Profile = () => {
   const navigation = useNavigation();
+  const { signOut } = useAuth();
 
   function goToEditProfile() {
     navigation.navigate('EditUser');
   }
 
+  async function handleSignOut() {
+    await signOut();
+  }
+
   return (
     <View style={styles.background}>
-      <TouchableOpacity onPress={() => navigation.navigate('EditUser')} style={styles.iconEdit} onLongPress={() => navigation.navigate('EditUser')}>
-        <Icon
-          name="edit"
+      <View style={styles.iconsContainer}>
+        <IconMaterial
+          name="logout"
           color={colorBase}
           size={30}
+          onPress={() => handleSignOut()}
         />
-      </TouchableOpacity>
+        <Icon
+          name="cog"
+          color={colorBase}
+          size={30}
+          onPress={() => goToEditProfile()}
+        />
+      </View>
+
 
       <ScrollView>
 
@@ -100,12 +112,11 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
 
-  iconEdit: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    padding: 15,
-    backgroundColor: 'red',
+  iconsContainer: {
+    flexDirection: 'row',
+    justifyContent: "flex-end",
+    paddingRight: 10,
+    paddingTop: 10
   },
 
   header: {

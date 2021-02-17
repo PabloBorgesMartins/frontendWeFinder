@@ -22,7 +22,6 @@ import {Input, Button} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 
 import avatar from '../../../assets/images/avatarWeFinder.png';
-import background from '../../../assets/images/loginBackground.png';
 
 
 const colorBase = '#5abdb8';

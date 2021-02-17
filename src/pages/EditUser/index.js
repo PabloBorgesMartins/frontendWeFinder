@@ -204,7 +204,7 @@ const EditUser = () => {
               </View>
             </View>
 
-            <View style={styles.line} />
+            {/* <View style={styles.line} /> */}
 
             <View style={styles.section}>
               <View style={styles.sectionName}>
@@ -246,7 +246,7 @@ const EditUser = () => {
               </View>
             </View>
 
-            <View style={styles.line} />
+            {/* <View style={styles.line} /> */}
 
             <View style={styles.section}>
               <View style={styles.sectionName}>

@@ -11,8 +11,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Button} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
+import { Button } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
 const colorBase = '#5abdb8';
 const colorSection = '#2c2e2e';
@@ -21,6 +21,8 @@ const colorInput = '#202223';
 const boxColor = '#3b3d3d';
 
 const isLeader = true;
+
+import { data } from './chat'
 
 const ChatList = () => {
   const navigation = useNavigation();
@@ -48,69 +50,25 @@ const ChatList = () => {
 
       <View style={styles.background}>
         <ScrollView>
-          <TouchableOpacity onPress={goToChat} style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>15:38</Text>
-            </View>
-            <Text style={styles.fontBig}>dBlackOwl</Text>
-            <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>12:52</Text>
-            </View>
-            <Text style={styles.fontBig}>D U E U</Text>
-            <Text style={styles.fontSmall}>Eduardo Vieira</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>06:48</Text>
-            </View>
-            <Text style={styles.fontBig}>MnR NightPhantom</Text>
-            <Text style={styles.fontSmall}>Vinicius Carneiro da Silva</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>15:38</Text>
-            </View>
-            <Text style={styles.fontBig}>dBlackOwl</Text>
-            <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>12:52</Text>
-            </View>
-            <Text style={styles.fontBig}>D U E U</Text>
-            <Text style={styles.fontSmall}>Eduardo Vieira</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>06:48</Text>
-            </View>
-            <Text style={styles.fontBig}>MnR NightPhantom</Text>
-            <Text style={styles.fontSmall}>Vinicius Carneiro da Silva</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>15:38</Text>
-            </View>
-            <Text style={styles.fontBig}>dBlackOwl</Text>
-            <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>12:52</Text>
-            </View>
-            <Text style={styles.fontBig}>D U E U</Text>
-            <Text style={styles.fontSmall}>Eduardo Vieira</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.chatBox}>
-            <View style={styles.timeContainer}>
-              <Text style={styles.fontSmall}>06:48</Text>
-            </View>
-            <Text style={styles.fontBig}>MnR NightPhantom</Text>
-            <Text style={styles.fontSmall}>Vinicius Carneiro da Silva</Text>
-          </TouchableOpacity>
+          {
+            data.map((item) => {
+              if (item) {
+                return (
+                  <TouchableOpacity key={item.id} onPress={goToChat} style={styles.chatBox}>
+                    <View style={styles.timeContainer}>
+                      <Text style={styles.fontSmall}>{item.time}</Text>
+                    </View>
+                    <Text style={styles.fontBig}>{item.user}</Text>
+                    <Text style={styles.fontSmall}>{item.name}</Text>
+                  </TouchableOpacity>
+                )
+              }else{
+                return(
+                  <Text style={styles.fontBig}>Você Não possui conversas</Text>
+                )
+              }
+            })
+          }
         </ScrollView>
       </View>
     </>
@@ -136,6 +94,7 @@ const styles = StyleSheet.create({
     fontFamily: 'MavenPro-Bold',
     color: 'white',
     fontSize: 28,
+    marginBottom: 5
   },
 
   background: {
@@ -154,7 +113,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     padding: 10,
     borderBottomWidth: 2,
-    height: 88,
     borderColor: colorBase,
     backgroundColor: boxColor,
   },

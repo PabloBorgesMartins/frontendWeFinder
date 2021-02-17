@@ -55,7 +55,8 @@ const ChatScreen = () => {
             data.map((item) => {
               if (item) {
                 return (
-                  <View style={item.isMy ? styles.textBoxMy : styles.textBox}>
+                  <View key={item.id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
+                    <View style={styles.triangleRight} />
                     <View style={styles.timeContainer}>
                       <Text style={styles.fontSmall}>{item.time}</Text>
                     </View>
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
 
   body: {
     flexGrow: 1,
-    paddingHorizontal: 15,
+    paddingHorizontal: 0,
     paddingVertical: 5,
     maxHeight: Dimensions.get('window').height - 100,
   },
@@ -165,6 +166,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 8,
     marginRight: 40,
+    marginLeft: 15,
     borderColor: colorBase,
     backgroundColor: boxColor,
   },
@@ -174,6 +176,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 8,
     marginLeft: 40,
+    marginRight: 15,
     borderColor: colorBase,
     backgroundColor: boxColor,
   },
@@ -212,4 +215,13 @@ const styles = StyleSheet.create({
     right: 20,
     zIndex: 100,
   },
+
+  triangleRight:{
+    position: 'absolute',
+    top: 20,
+    right: -10,
+    width: 10,
+    height: 10,
+    backgroundColor: 'red'
+  }
 });

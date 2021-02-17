@@ -23,7 +23,6 @@ import {CheckBox, Input, Button} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
 
 import avatar from '../../../assets/images/avatarWeFinder.png';
-import background from '../../../assets/images/loginBackground.png';
 
 const colorBase = '#5abdb8';
 const colorSection = '#2c2e2e';
@@ -80,7 +79,7 @@ const Login = () => {
                     containerStyle={styles.checkContainer}
                   />
                   <CheckBox
-                    title="Prucuro Jogador"
+                    title="Prucuro Jogadores"
                     checkedIcon="dot-circle-o"
                     uncheckedIcon="circle-o"
                     onPress={() => setTypePlayer(!typePlayer)}
