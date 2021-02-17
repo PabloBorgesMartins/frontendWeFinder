@@ -56,7 +56,7 @@ const ChatScreen = () => {
               if (item) {
                 return (
                   <View key={item.id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
-                    <View style={styles.triangleRight} />
+                    <View style={item.isMy ? styles.triangleRight : styles.triangleLeft} />
                     <View style={styles.timeContainer}>
                       <Text style={styles.fontSmall}>{item.time}</Text>
                     </View>
@@ -219,9 +219,29 @@ const styles = StyleSheet.create({
   triangleRight:{
     position: 'absolute',
     top: 20,
-    right: -10,
-    width: 10,
-    height: 10,
-    backgroundColor: 'red'
+    right: -15,
+    backgroundColor: 'transparent',
+    borderTopWidth: 10,
+    borderRightWidth: 0,
+    borderBottomWidth: 10,
+    borderLeftWidth: 15,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderBottomColor: 'transparent',
+    borderLeftColor: boxColor,
+  },
+  triangleLeft:{
+    position: 'absolute',
+    top: 20,
+    left: -15,
+    backgroundColor: 'transparent',
+    borderTopWidth: 10,
+    borderRightWidth: 15,
+    borderBottomWidth: 10,
+    borderLeftWidth: 0,
+    borderTopColor: 'transparent',
+    borderRightColor: boxColor,
+    borderBottomColor: 'transparent',
+    borderLeftColor: "transparent",
   }
 });
