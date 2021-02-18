@@ -22,10 +22,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import avatar from '../../../assets/images/draven.jpg';
 
-const colorBase = '#5abdb8';
-const colorSection = '#2c2e2e';
-const colorFont = '#adaeae';
-const boxColor = '#202223';
+import * as COLORS from '../../../assets/colorations'
 const colorInput = '#3b3d3d';
 
 const ListUsers = () => {
@@ -46,7 +43,7 @@ const ListUsers = () => {
           <Icon
             onPress={() => navigation.goBack()}
             name="arrow-left"
-            color={colorFont}
+            color={COLORS.zcinzaClaro}
             size={20}
           />
           <Text style={[styles.fontMedium, {marginHorizontal: 15}]}>
@@ -143,7 +140,7 @@ const ListUsers = () => {
           <ScrollView>
             <View style={styles.playerBox}>
               <View style={styles.header}>
-                <Image source={avatar} style={styles.avatar} />
+                <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
                 <Text style={styles.fontBig}>dBlackOwl</Text>
                 <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
               </View>
@@ -166,7 +163,7 @@ const ListUsers = () => {
 
             <View style={styles.playerBox}>
               <View style={styles.header}>
-                <Image source={avatar} style={styles.avatar} />
+                <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
                 <Text style={styles.fontBig}>dBlackOwl</Text>
                 <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
               </View>
@@ -189,9 +186,9 @@ const ListUsers = () => {
 
             <View style={styles.playerBox}>
               <View style={styles.header}>
-                <Image source={avatar} style={styles.avatar} />
-                <Text style={styles.fontBig}>dBlackOwl</Text>
-                <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
+                <Image source={require('../../../assets/images/rank/Platinum_1.png')} style={styles.avatar} />
+                <Text style={styles.fontBig}>MnR LightPhantom</Text>
+                <Text style={styles.fontSmall}>Vinicius Carneiro da Silva</Text>
               </View>
 
               <View style={styles.line} />
@@ -221,24 +218,24 @@ export default ListUsers;
 const styles = StyleSheet.create({
   fontSmall: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
-    fontSize: 12,
+    color: COLORS.zcinzaClaro,
+    fontSize: 15,
   },
 
   fontMedium: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.zcinzaClaro,
     fontSize: 20,
   },
 
   fontBig: {
     fontFamily: 'MavenPro-Bold',
-    color: colorBase,
-    fontSize: 28,
+    color: COLORS.Turquoise,
+    fontSize: 25,
   },
 
   background: {
-    backgroundColor: colorSection,
+    backgroundColor: COLORS.Charcoal,
     position: 'absolute',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
@@ -252,25 +249,23 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
     borderColor: '#FFF',
   },
 
   viewIconFilter: {
     position: 'absolute',
     right: 5,
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.Turquoise,
     borderRadius: 2,
-    borderColor: colorFont,
+    borderColor: COLORS.zcinzaClaro,
     borderWidth: 1,
     padding: 8,
   },
 
   body: {
-    flexGrow: 1,
+    flex: 1,
     paddingHorizontal: 15,
-    paddingVertical: 5,
-    maxHeight: Dimensions.get('window').height - 50,
   },
 
   footer: {
@@ -285,7 +280,7 @@ const styles = StyleSheet.create({
   },
 
   line: {
-    borderBottomColor: colorFont,
+    borderBottomColor: COLORS.zcinzaClaro,
     borderBottomWidth: 1,
     marginVertical: 5,
   },
@@ -294,28 +289,30 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 10,
     marginVertical: 10,
-    borderColor: colorBase,
-    backgroundColor: boxColor,
+    borderColor: COLORS.Turquoise,
+    backgroundColor: COLORS.zchumboEscuro,
   },
 
   header: {
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'center',
+    height: 100,
+    paddingRight: 10
   },
 
   avatar: {
     top: 0,
     left: 0,
     position: 'absolute',
-    height: 40,
-    width: 40,
+    height: 80,
+    width: 80,
     marginBottom: 10,
   },
 
   input: {
     height: 35,
-    backgroundColor: colorInput,
-    color: colorFont,
+    backgroundColor: COLORS.zchumboClaro,
+    color: COLORS.zcinzaClaro,
     paddingLeft: 10,
     fontFamily: 'MavenPro-Bold',
     borderRadius: 5,
@@ -323,17 +320,18 @@ const styles = StyleSheet.create({
   },
 
   buttonSelect: {
-    height: 35,
     marginTop: 10,
-    backgroundColor: colorBase,
-    width: wp('40%'),
-    borderRadius: 10,
-    borderColor: colorFont,
+    backgroundColor: COLORS.zcinzaClaro,
+    borderRadius: 4,
+    paddingHorizontal: 30,
+    borderColor: COLORS.zcinzaClaro,
     borderWidth: 1,
   },
 
   buttonFont: {
-    color: 'white',
+    color: 'black',
+    fontFamily: 'MavenPro-Bold',
+    fontSize: 20,
   },
 
   modalFont: {
@@ -346,7 +344,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     height: 35,
     margin: 3,
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.Turquoise,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -355,7 +353,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     height: 35,
     margin: 3,
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.Turquoise,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -372,9 +370,9 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    backgroundColor: colorInput,
+    backgroundColor: COLORS.zchumboMedio,
     borderRadius: 15,
-    borderColor: colorFont,
+    borderColor: COLORS.zcinzaClaro,
     borderWidth: 1,
     padding: 35,
     width: wp('80%'),

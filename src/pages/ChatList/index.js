@@ -14,8 +14,7 @@ import {
 import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
-const colorBase = '#5abdb8';
-const colorSection = '#2c2e2e';
+import * as COLORS from '../../../assets/colorations'
 const colorFont = '#adaeae';
 const colorInput = '#202223';
 const boxColor = '#3b3d3d';
@@ -113,17 +112,18 @@ const styles = StyleSheet.create({
     borderTopWidth: 0,
     padding: 15,
     borderBottomWidth: 2,
-    borderColor: colorBase,
+    borderColor: COLORS.Turquoise,
     backgroundColor: boxColor,
   },
 
   buttonSearch: {
     padding: 10,
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.JetBlack,
     maxWidth: wp('40%'),
     borderRadius: 60,
     borderColor: colorFont,
     borderWidth: 1,
+    elevation: 10
   },
 
   buttonText: {

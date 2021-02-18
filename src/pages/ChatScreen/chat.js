@@ -43,8 +43,6 @@ export const data = [
         isMy: false,
         id: 6
     },
-
-
     {
         user: "dblackOwl",
         message: "O time ta completo ? dsadsadsjifhsiadfndjasfbnjabfkjadsbfkjdasbfkajsbfjkadsbfkjasbfjkasdfbkjabfjdkabfkjdasbfkjadsbfkjdasbfkjasdb fasbfjkadsfbkasdbfkjdasbfksafbajksfbadskfbdsakjfbjsdakfbasdkjfbaksfb",
@@ -52,6 +50,10 @@ export const data = [
         isMy: true,
         id: 7
     },
+
+
+
+
     // {
     //     user: "dblackOwl",
     //     message: "Dmr, vou chamar",

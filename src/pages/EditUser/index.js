@@ -73,13 +73,13 @@ const EditUser = () => {
         </View>
         <View style={styles.body}>
           <ScrollView>
-            <View style={styles.header}>
+            {/* <View style={styles.header}>
               <Image source={avatar} style={styles.avatar} />
               <Text style={styles.fontBig}>dBlackOwl</Text>
               <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
             </View>
 
-            <View style={styles.line} />
+            <View style={styles.line} /> */}
 
             <View style={styles.section}>
               <View style={styles.sectionName}>

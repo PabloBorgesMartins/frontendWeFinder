@@ -6,6 +6,7 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  KeyboardAvoidingView,
   TextInput,
   Alert
 } from 'react-native';
@@ -49,26 +50,25 @@ const ChatScreen = () => {
 
         <Text style={[styles.fontMedium, { marginLeft: 20 }]}>Pinga</Text>
       </View>
-      <View style={styles.body}>
-        <ScrollView>
-          {
-            data.map((item) => {
-              if (item) {
-                return (
-                  <View key={item.id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
-                    <View style={item.isMy ? styles.triangleRight : styles.triangleLeft} />
-                    <View style={styles.timeContainer}>
-                      <Text style={styles.fontSmall}>{item.time}</Text>
-                    </View>
-                    <Text style={item.isMy ? styles.fontBigMy : styles.fontBig}>{item.user}</Text>
-                    <Text style={styles.fontSmall}>{item.message}</Text>
+
+      <ScrollView style={{ flex:1 }}>
+        {
+          data.map((item) => {
+            if (item) {
+              return (
+                <View key={item.id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
+                  <View style={item.isMy ? styles.triangleRight : styles.triangleLeft} />
+                  <View style={styles.timeContainer}>
+                    <Text style={styles.fontSmall}>{item.time}</Text>
                   </View>
-                )
-              }
-            })
-          }
-        </ScrollView>
-      </View>
+                  <Text style={item.isMy ? styles.fontBigMy : styles.fontBig}>{item.user}</Text>
+                  <Text style={styles.fontSmall}>{item.message}</Text>
+                </View>
+              )
+            }
+          })
+        }
+      </ScrollView>
       <View style={styles.footer}>
         <TextInput
           onChangeText={(text) => setMessage(text)}
@@ -84,6 +84,9 @@ const ChatScreen = () => {
           size={35}
         />
       </View>
+
+
+
     </View>
   );
 };
@@ -118,16 +121,12 @@ const styles = StyleSheet.create({
   },
 
   background: {
+    flex: 1,
     backgroundColor: colorSection,
-    position: 'absolute',
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-    zIndex: 1,
   },
 
   header: {
     backgroundColor: 'black',
-    width: wp('100%'),
     paddingHorizontal: 10,
     paddingVertical: 10,
     flexDirection: 'row',
@@ -137,20 +136,17 @@ const styles = StyleSheet.create({
   },
 
   body: {
-    flexGrow: 1,
     paddingHorizontal: 0,
     paddingVertical: 5,
-    maxHeight: Dimensions.get('window').height - 100,
   },
 
   footer: {
-    height: 50,
-    backgroundColor: 'black',
-    width: wp('100%'),
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     borderTopWidth: 1,
     borderColor: '#FFF',
     paddingHorizontal: 15,
+    paddingVertical: 5,
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -189,7 +185,7 @@ const styles = StyleSheet.create({
     fontFamily: 'MavenPro-Bold',
     borderRadius: 5,
     marginVertical: 3,
-    width: wp('80%'),
+    width: '80%'
   },
 
   buttonSearch: {
@@ -202,21 +198,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 
-  buttonText: {
-    fontFamily: 'MavenPro-Bold',
-    fontSize: 15,
-    color: colorBase,
-    flexWrap: 'wrap',
-  },
-
-  viewButton: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    zIndex: 100,
-  },
-
-  triangleRight:{
+  triangleRight: {
     position: 'absolute',
     top: 20,
     right: -15,
@@ -230,7 +212,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
     borderLeftColor: boxColor,
   },
-  triangleLeft:{
+  triangleLeft: {
     position: 'absolute',
     top: 20,
     left: -15,

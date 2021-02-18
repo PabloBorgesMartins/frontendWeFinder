@@ -8,13 +8,16 @@ import SignUpPlayer from '../pages/SignUpPlayer';
 import SignUpEmail from '../pages/SignUpEmail';
 
 
+import * as COLORS from '../../assets/colorations'
+
+
 const Auth = createStackNavigator();
 
 const AuthRoutes = () => (
   <Auth.Navigator
     screenOptions={{
       headerShown: false,
-      cardStyle: { backgroundColor: '#eaeaea' },
+      cardStyle: { backgroundColor: COLORS.zchumboClaro},
     }}
     initialRouteName="Login"
   >

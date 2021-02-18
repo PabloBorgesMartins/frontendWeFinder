@@ -8,9 +8,8 @@ import avatar from '../../assets/images/avatarWeFinder.png';
 import ChatList from '../pages/ChatList';
 import Profile from '../pages/Profile';
 
-const colorSection = '#2c2e2e';
-const colorFont = '#adaeae';
-const colorBase = '#5abdb8';
+
+import * as COLORS from '../../assets/colorations'
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -26,10 +25,10 @@ export default function tabHome() {
         initialRouteName="chatList"
         tabBarOptions={{
           showIcon: true,
-          activeTintColor: colorBase,
-          inactiveTintColor: colorFont,
+          activeTintColor: COLORS.Turquoise,
+          inactiveTintColor: COLORS.Pewter,
           indicatorStyle: {
-            backgroundColor: colorBase,
+            backgroundColor: COLORS.Turquoise,
           },
           tabStyle: {
             flexDirection: 'row',
@@ -38,7 +37,7 @@ export default function tabHome() {
             fontSize: 14,
             fontFamily: 'MavenPro-Regular',
           },
-          style: {backgroundColor: colorSection},
+          style: {backgroundColor: COLORS.zchumboMedio},
         }}>
         <Tab.Screen
           name="Conversas"
@@ -68,12 +67,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     alignItems: 'center',
-    backgroundColor: colorSection,
+    backgroundColor: COLORS.zchumboEscuro,
   },
 
   headerText: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.Pewter,
     fontSize: 22,
   },
 

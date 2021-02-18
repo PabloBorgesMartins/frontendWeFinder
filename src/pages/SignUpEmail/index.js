@@ -11,8 +11,6 @@ import {
   KeyboardAvoidingView,
   Platform,
   TextInput,
-  TouchableHighlight,
-  Alert,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -23,11 +21,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import avatar from '../../../assets/images/avatarWeFinder.png';
 
-
-const colorBase = '#5abdb8';
-const colorSection = '#2c2e2e';
-const colorFont = '#adaeae';
-const colorInput = '#202223';
+import * as COLORS from '../../../assets/colorations'
 
 const SignUpEmail = () => {
   const [email, setEmail] = React.useState('');
@@ -63,24 +57,24 @@ const SignUpEmail = () => {
                   onChangeText={(text) => setEmail(text)}
                   style={styles.input}
                   placeholder="EMAIL"
-                  placeholderTextColor={colorFont}
-                  selectionColor={colorBase}
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
                 />
                 <TextInput
                   onChangeText={(text) => setPassword(text)}
                   style={styles.input}
                   placeholder="SENHA"
                   secureTextEntry={true}
-                  placeholderTextColor={colorFont}
-                  selectionColor={colorBase}
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
                 />
                 <TextInput
                   onChangeText={(text) => setPasswordConfirmation(text)}
                   style={styles.input}
                   placeholder="CONFIRMAR SENHA"
                   secureTextEntry={true}
-                  placeholderTextColor={colorFont}
-                  selectionColor={colorBase}
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
                 />
               </View>
 
@@ -92,7 +86,7 @@ const SignUpEmail = () => {
                     {
                       <Text
                         onPress={() => {}}
-                        style={[styles.fontTerm, {color: '#45D0C1'}]}>
+                        style={[styles.fontTerm, {color: COLORS.Turquoise}]}>
                         TERMOS
                       </Text>
                     }
@@ -145,7 +139,7 @@ const styles = StyleSheet.create({
   },
 
   section: {
-    backgroundColor: colorSection,
+    backgroundColor: COLORS.zchumboMedio,
     position: 'absolute',
     borderRadius: 15,
     marginHorizontal: wp('5%'),
@@ -153,6 +147,7 @@ const styles = StyleSheet.create({
     marginVertical: hp('10%'),
     height: hp('80%'),
     padding: 25,
+    elevation: 8
   },
 
   containerHeader: {
@@ -193,8 +188,8 @@ const styles = StyleSheet.create({
 
   input: {
     height: 35,
-    backgroundColor: colorInput,
-    color: colorFont,
+    backgroundColor: COLORS.zchumboEscuro,
+    color: COLORS.zcinzaClaro,
     paddingLeft: 10,
     fontFamily: 'MavenPro-Bold',
     borderRadius: 5,
@@ -230,7 +225,7 @@ const styles = StyleSheet.create({
   },
 
   line: {
-    borderBottomColor: colorFont,
+    borderBottomColor: COLORS.zcinzaClaro,
     borderBottomWidth: 1,
     marginVertical: 10,
   },
@@ -238,14 +233,14 @@ const styles = StyleSheet.create({
   buttonNext: {
     borderRadius: 2,
     height: 40,
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.Turquoise,
     width: wp('35%'),
   },
 
   buttonPrevious: {
     borderRadius: 2,
     height: 40,
-    backgroundColor: colorInput,
+    backgroundColor: COLORS.zchumboEscuro,
     width: wp('35%'),
   },
 });

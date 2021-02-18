@@ -30,8 +30,10 @@ import avatar from '../../../assets/images/avatarWeFinder.png';
 import { useAuth } from '../../hooks/auth'
 
 
-const colorBase = '#5abdb8';
+
+import * as COLORS from '../../../assets/colorations'
 const colorSection = '#2c2e2e';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -103,19 +105,19 @@ const Login = () => {
                 <TextInput
                   onChangeText={(text) => setUsername(text)}
                   style={styles.input}
-                  selectionColor={colorBase}
+                  selectionColor={COLORS.Turquoise}
                 />
                 <Text style={styles.fonteBody}>SENHA</Text>
                 <TextInput
                   onChangeText={(text) => setPassword(text)}
                   secureTextEntry={true}
                   style={styles.input}
-                  selectionColor={colorBase}
+                  selectionColor={COLORS.Turquoise}
                 />
                 <TouchableHighlight
                   style={styles.touch}
                   onPress={() => {}}
-                  underlayColor={colorSection}
+                  underlayColor={COLORS.zchumboMedio}
                   activeOpacity={0.3}>
                   <Text style={styles.fonteCadaster}>Esqueci minha senha</Text>
                 </TouchableHighlight>
@@ -129,7 +131,7 @@ const Login = () => {
               <TouchableOpacity
                 style={styles.touch}
                 onPress={goToSignUp}
-                underlayColor={colorSection}
+                underlayColor={COLORS.zchumboMedio}
                 activeOpacity={0.3}>
                 <Text style={styles.fonteCadaster}>CADASTRE-SE</Text>
               </TouchableOpacity>
@@ -159,7 +161,8 @@ const styles = StyleSheet.create({
   },
 
   background: {
-    backgroundColor: '#3b3d3d',
+    // backgroundColor: '#3b3d3d',
+    backgroundColor: 'transparent',
     position: 'absolute',
     left: 0,
     top: 0,
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
   },
 
   section: {
-    backgroundColor: colorSection,
+    backgroundColor: COLORS.zchumboMedio,
     position: 'absolute',
     borderRadius: 15,
     marginHorizontal: wp('5%'),
@@ -176,6 +179,7 @@ const styles = StyleSheet.create({
     marginVertical: hp('10%'),
     height: hp('80%'),
     padding: 25,
+    elevation: 8
   },
 
   containerHeader: {
@@ -224,6 +228,6 @@ const styles = StyleSheet.create({
   buttonLogin: {
     borderRadius: 2,
     height: 47,
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.Turquoise,
   },
 });

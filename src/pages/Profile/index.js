@@ -18,12 +18,10 @@ import { useNavigation } from '@react-navigation/native';
 import avatar from '../../../assets/images/rank/Diamond_1.png';
 
 import { useAuth } from '../../hooks/auth'
+import { color } from 'react-native-reanimated';
 
-const colorBase = '#5abdb8';
-const colorSection = '#2c2e2e';
-const colorFont = '#adaeae';
+import * as COLORS from '../../../assets/colorations'
 const colorInput = '#202223';
-const boxColor = '#3b3d3d';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -39,48 +37,46 @@ const Profile = () => {
 
   return (
     <View style={styles.background}>
-      <View style={styles.iconsContainer}>
-        <IconMaterial
-          name="logout"
-          color={colorBase}
-          size={30}
-          onPress={() => handleSignOut()}
-        />
-        <Icon
-          name="cog"
-          color={colorBase}
-          size={30}
-          onPress={() => goToEditProfile()}
-        />
+
+      <View style={styles.header}>
+        <View style={styles.iconsContainer}>
+          <IconMaterial
+            name="logout"
+            color={COLORS.Turquoise}
+            size={30}
+            onPress={() => handleSignOut()}
+          />
+          <Icon
+            name="cog"
+            color={COLORS.Turquoise}
+            size={30}
+            onPress={() => goToEditProfile()}
+          />
+        </View>
+        <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
+        <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>dBlackOwl</Text>
+        <Text style={[styles.fontSmall, {color: COLORS.zcolorBase}]}>Pablo Borges Martins</Text>
       </View>
 
+      <View style={styles.line} />
 
-      <ScrollView>
-
-        <View style={styles.header}>
-          <Image source={avatar} style={styles.avatar} />
-          <Text style={[styles.fontBig, { color: colorBase }]}>dBlackOwl</Text>
-          <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
-        </View>
-
-        <View style={styles.line} />
-
-        <View style={styles.containerPlayerData}>
-          <Text style={styles.fontBig}>Elo</Text>
-          <Text style={styles.fontSmall}>Platina III</Text>
-        </View>
-        <View style={styles.containerPlayerData}>
-          <Text style={styles.fontBig}>Lanes</Text>
-          <Text style={styles.fontSmall}>Jungle, Adc</Text>
-        </View>
-        <View style={styles.containerPlayerData}>
-          <Text style={styles.fontBig}>Champion Pool</Text>
-          <Text style={styles.fontSmall}>Draven, Rengar, Jhin</Text>
-        </View>
-        <View style={styles.containerPlayerData}>
-          <Text style={styles.fontBig}>Telefone</Text>
-          <Text style={styles.fontSmall}>(35)98464-0000</Text>
-        </View>
+      <ScrollView style={styles.containerBody} >
+          <View style={styles.containerPlayerData}>
+            <Text style={styles.fontBig}>Elo</Text>
+            <Text style={styles.fontSmall}>Platina III</Text>
+          </View>
+          <View style={styles.containerPlayerData}>
+            <Text style={styles.fontBig}>Lanes</Text>
+            <Text style={styles.fontSmall}>Jungle, Adc</Text>
+          </View>
+          <View style={styles.containerPlayerData}>
+            <Text style={styles.fontBig}>Champion Pool</Text>
+            <Text style={styles.fontSmall}>Draven, Rengar, Jhin</Text>
+          </View>
+          <View style={styles.containerPlayerData}>
+            <Text style={styles.fontBig}>Telefone</Text>
+            <Text style={styles.fontSmall}>(35)98464-0000</Text>
+          </View>
       </ScrollView>
     </View>
   );
@@ -91,36 +87,36 @@ export default Profile;
 const styles = StyleSheet.create({
   fontSmall: {
     fontFamily: 'MavenPro-Bold',
-    color: 'white',
-    fontSize: 12,
+    color: COLORS.White,
+    fontSize: 15,
   },
 
   fontMedium: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.Charcoal,
     fontSize: 20,
   },
 
   fontBig: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
-    fontSize: 28,
+    color: COLORS.JetBlack,
+    fontSize: 30,
   },
 
   background: {
-    backgroundColor: colorInput,
-    flexGrow: 1,
+    backgroundColor: COLORS.zchumboEscuro,
+    flex: 1,
   },
 
   iconsContainer: {
     flexDirection: 'row',
     justifyContent: "flex-end",
+    width: '100%',
     paddingRight: 10,
-    paddingTop: 10
+    paddingTop: 10,
   },
 
   header: {
-    marginTop: 20,
     borderWidth: 0,
     borderColor: '#FFF',
     justifyContent: 'center',
@@ -134,9 +130,14 @@ const styles = StyleSheet.create({
   },
 
   line: {
-    marginVertical: 20,
-    borderBottomColor: colorFont,
+    marginTop: 20,
+    borderBottomColor: COLORS.Turquoise,
     borderBottomWidth: 1,
+    elevation: 10
+  },
+
+  containerBody: {
+    backgroundColor: COLORS.Gray,
   },
 
   containerPlayerData: {
