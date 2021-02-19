@@ -25,7 +25,6 @@ export const Pink = '#CE2380'
 
 
 
-
 const Ebony = '#44444C';
 const Cyan = '#07DAC0'
 const Pewter2 = '#D8D7D5';

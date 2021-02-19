@@ -1,7 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
-  ActivityIndicator,
-  StatusBar,
   Dimensions,
   StyleSheet,
   View,
@@ -21,18 +19,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {CheckBox, Input, Button} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
+import { CheckBox, Input, Button } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
-import avatar from '../../../assets/images/draven.jpg';
 
-const colorBase = '#5abdb8';
-const colorSection = '#2c2e2e';
-const colorFont = '#adaeae';
-const colorInput = '#202223';
-const boxColor = '#3b3d3d';
-
-const isLeader = true;
+import * as COLORS from '../../../assets/colorations'
 
 const EditUser = () => {
   const [nick, setNick] = useState('');
@@ -66,232 +57,218 @@ const EditUser = () => {
           <Icon
             onPress={saveData}
             name="arrow-left"
-            color={colorFont}
+            color={COLORS.zcinzaClaro}
             size={20}
           />
-          <Text style={[styles.fontBig, {marginLeft: 20}]}>Editar Usuário</Text>
+          <Text style={[styles.fontBig, { marginLeft: 20 }]}>Editar Usuário</Text>
         </View>
-        <View style={styles.body}>
-          <ScrollView>
-            {/* <View style={styles.header}>
-              <Image source={avatar} style={styles.avatar} />
-              <Text style={styles.fontBig}>dBlackOwl</Text>
-              <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
+        <ScrollView style={styles.body}>
+          <View style={styles.section}>
+            <View style={styles.sectionName}>
+              <Text style={styles.fontName}>DADOS DO PLAYER</Text>
             </View>
 
-            <View style={styles.line} /> */}
-
-            <View style={styles.section}>
-              <View style={styles.sectionName}>
-                <Text style={styles.fontName}>DADOS DO PLAYER</Text>
-              </View>
-
-              <View style={styles.body}>
-                <View style={styles.bodyInputs}>
-                  <View style={styles.rowCheck}>
-                    <CheckBox
-                      title="Procuro time"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                      onPress={() => setTypePlayer(!typePlayer)}
-                      checked={typePlayer}
-                      textStyle={styles.checkFont}
-                      containerStyle={styles.checkContainer}
-                    />
-                    <CheckBox
-                      title="Prucuro Jogador"
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                      onPress={() => setTypePlayer(!typePlayer)}
-                      checked={!typePlayer}
-                      textStyle={styles.checkFont}
-                      containerStyle={styles.checkContainer}
-                    />
-                  </View>
-                  <TextInput
-                    onChangeText={(text) => setNick(text)}
-                    style={styles.input}
-                    placeholder="NICK"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
+            <View style={styles.body}>
+              <View style={styles.bodyInputs}>
+                <View style={styles.rowCheck}>
+                  <CheckBox
+                    title="Procuro time"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    onPress={() => setTypePlayer(!typePlayer)}
+                    checked={typePlayer}
+                    textStyle={styles.checkFont}
+                    containerStyle={styles.checkContainer}
                   />
-                  <TextInput
-                    onChangeText={(text) => setChampionPoll(text)}
-                    style={styles.input}
-                    placeholder="CHAMPION POOL"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
+                  <CheckBox
+                    title="Prucuro Jogador"
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    onPress={() => setTypePlayer(!typePlayer)}
+                    checked={!typePlayer}
+                    textStyle={styles.checkFont}
+                    containerStyle={styles.checkContainer}
                   />
-                  <TextInput
-                    onChangeText={(text) => setElo(text)}
-                    style={styles.input}
-                    placeholder="ELO"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                  />
+                </View>
+                <TextInput
+                  onChangeText={(text) => setNick(text)}
+                  style={styles.input}
+                  placeholder="NICK"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
+                <TextInput
+                  onChangeText={(text) => setChampionPoll(text)}
+                  style={styles.input}
+                  placeholder="CHAMPION POOL"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
+                <TextInput
+                  onChangeText={(text) => setElo(text)}
+                  style={styles.input}
+                  placeholder="ELO"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
 
-                  <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={modalVisible}
-                    onRequestClose={() => {
-                      setModalVisible(!modalVisible);
-                    }}>
-                    <View style={styles.centeredView}>
-                      <View style={styles.modalView}>
-                        <Text style={styles.modalFont}>
-                          SELECIONE AS LANES DESEJADAS
+                <Modal
+                  animationType="slide"
+                  transparent={true}
+                  visible={modalVisible}
+                  onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                  }}>
+                  <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                      <Text style={styles.modalFont}>
+                        SELECIONE AS LANES DESEJADAS
                         </Text>
 
-                        <View style={styles.lanesContainer}>
-                          <CheckBox
-                            title="TOP"
-                            onPress={() => setTop(!top)}
-                            checked={top}
-                            textStyle={styles.checkFont}
-                            containerStyle={styles.checkContainer}
-                          />
-                          <CheckBox
-                            title="JUNGLE"
-                            onPress={() => setJungle(!jungle)}
-                            checked={jungle}
-                            textStyle={styles.checkFont}
-                            containerStyle={styles.checkContainer}
-                          />
-                          <CheckBox
-                            title="MID"
-                            onPress={() => setMid(!mid)}
-                            checked={mid}
-                            textStyle={styles.checkFont}
-                            containerStyle={styles.checkContainer}
-                          />
-                          <CheckBox
-                            title="ADC"
-                            onPress={() => setAdc(!adc)}
-                            checked={adc}
-                            textStyle={styles.checkFont}
-                            containerStyle={styles.checkContainer}
-                          />
-                          <CheckBox
-                            title="SUPORTE"
-                            onPress={() => setSup(!sup)}
-                            checked={sup}
-                            textStyle={styles.checkFont}
-                            containerStyle={styles.checkContainer}
-                          />
-                        </View>
-                        <View style={styles.centralize}>
-                          <TouchableHighlight
-                            style={styles.closeModal}
-                            onPress={() => {
-                              setModalVisible(!modalVisible);
-                            }}>
-                            <Text style={styles.openModalFont}>CONFIRMAR</Text>
-                          </TouchableHighlight>
-                        </View>
+                      <View style={styles.lanesContainer}>
+                        <CheckBox
+                          title="TOP"
+                          onPress={() => setTop(!top)}
+                          checked={top}
+                          textStyle={styles.checkFont}
+                          containerStyle={styles.checkContainer}
+                        />
+                        <CheckBox
+                          title="JUNGLE"
+                          onPress={() => setJungle(!jungle)}
+                          checked={jungle}
+                          textStyle={styles.checkFont}
+                          containerStyle={styles.checkContainer}
+                        />
+                        <CheckBox
+                          title="MID"
+                          onPress={() => setMid(!mid)}
+                          checked={mid}
+                          textStyle={styles.checkFont}
+                          containerStyle={styles.checkContainer}
+                        />
+                        <CheckBox
+                          title="ADC"
+                          onPress={() => setAdc(!adc)}
+                          checked={adc}
+                          textStyle={styles.checkFont}
+                          containerStyle={styles.checkContainer}
+                        />
+                        <CheckBox
+                          title="SUPORTE"
+                          onPress={() => setSup(!sup)}
+                          checked={sup}
+                          textStyle={styles.checkFont}
+                          containerStyle={styles.checkContainer}
+                        />
+                      </View>
+                      <View style={styles.centralize}>
+                        <TouchableHighlight
+                          style={styles.closeModal}
+                          onPress={() => {
+                            setModalVisible(!modalVisible);
+                          }}>
+                          <Text style={styles.openModalFont}>CONFIRMAR</Text>
+                        </TouchableHighlight>
                       </View>
                     </View>
-                  </Modal>
+                  </View>
+                </Modal>
 
-                  <TouchableHighlight
-                    style={styles.openModal}
-                    onPress={() => {
-                      setModalVisible(true);
-                    }}>
-                    <Text style={styles.openModalFont}>SELECIONAR LANES</Text>
-                  </TouchableHighlight>
-                </View>
+                <TouchableHighlight
+                  style={styles.openModal}
+                  onPress={() => {
+                    setModalVisible(true);
+                  }}>
+                  <Text style={styles.openModalFont}>SELECIONAR LANES</Text>
+                </TouchableHighlight>
               </View>
             </View>
+          </View>
 
-            {/* <View style={styles.line} /> */}
+          {/* <View style={styles.line} /> */}
 
-            <View style={styles.section}>
-              <View style={styles.sectionName}>
-                <Text style={styles.fontName}>DADOS PESSOAIS</Text>
-              </View>
-              <View style={styles.body}>
-                <View style={styles.bodyInputs}>
-                  <TextInput
-                    onChangeText={(text) => setName(text)}
-                    style={styles.input}
-                    placeholder="NOME"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                  />
-                  <TextInput
-                    onChangeText={(text) => setLastName(text)}
-                    style={styles.input}
-                    placeholder="SOBRENOME"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                  />
-                  <TextInput
-                    onChangeText={(text) => setBirth(text)}
-                    style={styles.input}
-                    placeholder="DATA DE NASCIMENTO"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                    keyboardType="numeric"
-                  />
-                  <TextInput
-                    onChangeText={(text) => setPhoneNumber(text)}
-                    style={styles.input}
-                    placeholder="TELEFONE"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                    keyboardType="numeric"
-                  />
-                </View>
+          <View style={styles.section}>
+            <View style={styles.sectionName}>
+              <Text style={styles.fontName}>DADOS PESSOAIS</Text>
+            </View>
+            <View style={styles.body}>
+              <View style={styles.bodyInputs}>
+                <TextInput
+                  onChangeText={(text) => setName(text)}
+                  style={styles.input}
+                  placeholder="NOME"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
+                <TextInput
+                  onChangeText={(text) => setLastName(text)}
+                  style={styles.input}
+                  placeholder="SOBRENOME"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
+                <TextInput
+                  onChangeText={(text) => setBirth(text)}
+                  style={styles.input}
+                  placeholder="DATA DE NASCIMENTO"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                  keyboardType="numeric"
+                />
+                <TextInput
+                  onChangeText={(text) => setPhoneNumber(text)}
+                  style={styles.input}
+                  placeholder="TELEFONE"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                  keyboardType="numeric"
+                />
               </View>
             </View>
+          </View>
 
-            {/* <View style={styles.line} /> */}
+          {/* <View style={styles.line} /> */}
 
-            <View style={styles.section}>
-              <View style={styles.sectionName}>
-                <Text style={styles.fontName}>DADOS CADASTRAIS</Text>
-              </View>
-              <View style={styles.body}>
-                <View style={styles.bodyInputs}>
-                  <TextInput
-                    onChangeText={(text) => setEmail(text)}
-                    style={styles.input}
-                    placeholder="EMAIL"
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                  />
-                  <TextInput
-                    onChangeText={(text) => setPassword(text)}
-                    style={styles.input}
-                    placeholder="SENHA"
-                    secureTextEntry={true}
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                  />
-                  <TextInput
-                    onChangeText={(text) => setPasswordConfirmation(text)}
-                    style={styles.input}
-                    placeholder="CONFIRMAR SENHA"
-                    secureTextEntry={true}
-                    placeholderTextColor={colorFont}
-                    selectionColor={colorBase}
-                  />
-                </View>
+          <View style={styles.section}>
+            <View style={styles.sectionName}>
+              <Text style={styles.fontName}>DADOS CADASTRAIS</Text>
+            </View>
+            <View style={styles.body}>
+              <View style={styles.bodyInputs}>
+                <TextInput
+                  onChangeText={(text) => setEmail(text)}
+                  style={styles.input}
+                  placeholder="EMAIL"
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
+                <TextInput
+                  onChangeText={(text) => setPassword(text)}
+                  style={styles.input}
+                  placeholder="SENHA"
+                  secureTextEntry={true}
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
+                <TextInput
+                  onChangeText={(text) => setPasswordConfirmation(text)}
+                  style={styles.input}
+                  placeholder="CONFIRMAR SENHA"
+                  secureTextEntry={true}
+                  placeholderTextColor={COLORS.zcinzaClaro}
+                  selectionColor={COLORS.Turquoise}
+                />
               </View>
             </View>
+          </View>
 
-            <View style={styles.line} />
-
-            <View style={{alignItems: 'center'}}>
-              <Button
-                onPress={saveData}
-                buttonStyle={styles.buttonSave}
-                title={'S A L V A R'}
-              />
-            </View>
-          </ScrollView>
-        </View>
+        </ScrollView>
+        <Button
+          onPress={saveData}
+          buttonStyle={styles.buttonSave}
+          title={'S A L V A R'}
+        />
       </View>
     </>
   );
@@ -302,24 +279,24 @@ export default EditUser;
 const styles = StyleSheet.create({
   fontSmall: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.zcinzaClaro,
     fontSize: 12,
   },
 
   fontMedium: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.zcinzaClaro,
     fontSize: 20,
   },
 
   fontBig: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.zcinzaClaro,
     fontSize: 28,
   },
 
   background: {
-    backgroundColor: colorSection,
+    backgroundColor: COLORS.zchumboMedio,
     position: 'absolute',
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
@@ -337,74 +314,17 @@ const styles = StyleSheet.create({
     borderColor: '#FFF',
   },
 
-  header: {
-    marginVertical: 20,
-    borderWidth: 0,
-    borderColor: '#FFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  avatar: {
-    height: 120,
-    width: 120,
-    marginBottom: 10,
-  },
-
   line: {
-    borderBottomColor: colorFont,
+    borderBottomColor: COLORS.zcinzaClaro,
     borderBottomWidth: 1,
     marginVertical: 20,
   },
 
   body: {
-    flexGrow: 1,
+    flex: 1,
     paddingHorizontal: 15,
-    paddingVertical: 5,
-    maxHeight: Dimensions.get('window').height - 50,
-  },
-
-  footer: {
-    height: 50,
-    backgroundColor: 'black',
-    width: wp('100%'),
-    flexDirection: 'row',
-    borderTopWidth: 1,
-    borderColor: '#FFF',
-    paddingHorizontal: 15,
-    alignItems: 'center',
-  },
-
-  timeContainer: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-  },
-
-  textBox: {
-    borderRadius: 15,
-    padding: 10,
-    marginBottom: 8,
-    height: 88,
-    borderColor: colorBase,
-    backgroundColor: boxColor,
-  },
-
-  buttonSearch: {
-    height: 35,
-    marginLeft: 10,
-    backgroundColor: colorInput,
-    maxWidth: wp('10%'),
-    borderRadius: 60,
-    borderColor: colorFont,
-    borderWidth: 1,
-  },
-
-  buttonText: {
-    fontFamily: 'MavenPro-Bold',
-    fontSize: 15,
-    color: colorBase,
-    flexWrap: 'wrap',
+    paddingTop: 5,
+    paddingBottom: 20,
   },
 
   sectionName: {
@@ -444,8 +364,8 @@ const styles = StyleSheet.create({
 
   input: {
     height: 35,
-    backgroundColor: colorInput,
-    color: colorFont,
+    backgroundColor: COLORS.zchumboEscuro,
+    color: COLORS.zcinzaClaro,
     paddingLeft: 10,
     fontFamily: 'MavenPro-Bold',
     borderRadius: 5,
@@ -466,7 +386,7 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     height: 35,
     margin: 3,
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.Turquoise,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -476,7 +396,7 @@ const styles = StyleSheet.create({
     height: 35,
     margin: 3,
     width: wp('40%'),
-    backgroundColor: colorBase,
+    backgroundColor: COLORS.Turquoise,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -493,9 +413,9 @@ const styles = StyleSheet.create({
   },
 
   modalView: {
-    backgroundColor: colorInput,
+    backgroundColor: COLORS.zchumboEscuro,
     borderRadius: 15,
-    borderColor: colorFont,
+    borderColor: COLORS.zcinzaClaro,
     borderWidth: 1,
     padding: 35,
     width: wp('80%'),
@@ -514,10 +434,8 @@ const styles = StyleSheet.create({
   },
 
   buttonSave: {
-    borderRadius: 2,
-    height: 40,
-    backgroundColor: colorBase,
-    width: wp('60%'),
-    marginBottom: 20,
+    backgroundColor: COLORS.Turquoise,
+    width: '100%',
+    paddingVertical: 20,
   },
 });

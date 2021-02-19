@@ -1,10 +1,8 @@
 import React from 'react';
 import {
   Text,
-  Alert,
   View,
   StyleSheet,
-  Dimensions,
   ScrollView,
   Image,
   TouchableHighlight,
@@ -15,13 +13,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
-import avatar from '../../../assets/images/rank/Diamond_1.png';
-
 import { useAuth } from '../../hooks/auth'
-import { color } from 'react-native-reanimated';
 
 import * as COLORS from '../../../assets/colorations'
-const colorInput = '#202223';
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -137,7 +131,7 @@ const styles = StyleSheet.create({
   },
 
   containerBody: {
-    backgroundColor: COLORS.Gray,
+    backgroundColor: COLORS.Charcoal,
   },
 
   containerPlayerData: {

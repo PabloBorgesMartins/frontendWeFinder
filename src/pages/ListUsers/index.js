@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Text,
   View,
@@ -15,10 +15,10 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {CheckBox, Input, Button} from 'react-native-elements';
+import { CheckBox, Input, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {Picker} from '@react-native-community/picker';
-import {useNavigation} from '@react-navigation/native';
+import { Picker } from '@react-native-community/picker';
+import { useNavigation } from '@react-navigation/native';
 
 import avatar from '../../../assets/images/draven.jpg';
 
@@ -46,7 +46,7 @@ const ListUsers = () => {
             color={COLORS.zcinzaClaro}
             size={20}
           />
-          <Text style={[styles.fontMedium, {marginHorizontal: 15}]}>
+          <Text style={[styles.fontMedium, { marginHorizontal: 15 }]}>
             Procurar Jogadores
           </Text>
 
@@ -64,7 +64,7 @@ const ListUsers = () => {
                 <Picker
                   selectedValue={language}
                   mode="dropdown"
-                  style={{height: 50, width: 200}}
+                  style={{ height: 50, width: 200 }}
                   onValueChange={(itemValue, itemIndex) =>
                     setLanguage(itemValue)
                   }>
@@ -136,78 +136,76 @@ const ListUsers = () => {
           </TouchableHighlight>
         </View>
 
-        <View style={styles.body}>
-          <ScrollView>
-            <View style={styles.playerBox}>
-              <View style={styles.header}>
-                <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
-                <Text style={styles.fontBig}>dBlackOwl</Text>
-                <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
-              </View>
-
-              <View style={styles.line} />
-
-              <Text style={styles.fontMedium}>Elo: Platina III</Text>
-              <Text style={styles.fontMedium}>Lanes: Jungle, Adc</Text>
-              <Text style={styles.fontMedium}>Pool: Draven, Rengar, Jhin</Text>
-
-              <View style={{alignItems: 'center'}}>
-                <Button
-                  onPress={() => {}}
-                  buttonStyle={styles.buttonSelect}
-                  titleStyle={styles.buttonFont}
-                  title={'RECRUTAR'}
-                />
-              </View>
+        <ScrollView style={styles.body}>
+          <View style={styles.playerBox}>
+            <View style={styles.header}>
+              <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
+              <Text style={styles.fontBig}>dBlackOwl</Text>
+              <Text style={[styles.fontSmall, {color:COLORS.zcolorBase}]}>Pablo Borges Martins</Text>
             </View>
 
-            <View style={styles.playerBox}>
-              <View style={styles.header}>
-                <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
-                <Text style={styles.fontBig}>dBlackOwl</Text>
-                <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
-              </View>
+            <View style={styles.line} />
 
-              <View style={styles.line} />
+            <Text style={styles.fontMedium}>Elo: Platina III</Text>
+            <Text style={styles.fontMedium}>Lanes: Jungle, Adc</Text>
+            <Text style={styles.fontMedium}>Pool: Draven, Rengar, Jhin</Text>
 
-              <Text style={styles.fontMedium}>Elo: Platina III</Text>
-              <Text style={styles.fontMedium}>Lanes: Jungle, Adc</Text>
-              <Text style={styles.fontMedium}>Pool: Draven, Rengar, Jhin</Text>
+            <View style={{ alignItems: 'center' }}>
+              <Button
+                onPress={() => { }}
+                buttonStyle={styles.buttonSelect}
+                titleStyle={styles.buttonFont}
+                title={'RECRUTAR'}
+              />
+            </View>
+          </View>
 
-              <View style={{alignItems: 'center'}}>
-                <Button
-                  onPress={() => {}}
-                  buttonStyle={styles.buttonSelect}
-                  titleStyle={styles.buttonFont}
-                  title={'RECRUTAR'}
-                />
-              </View>
+          <View style={styles.playerBox}>
+            <View style={styles.header}>
+              <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
+              <Text style={styles.fontBig}>dBlackOwl</Text>
+              <Text style={styles.fontSmall}>Pablo Borges Martins</Text>
             </View>
 
-            <View style={styles.playerBox}>
-              <View style={styles.header}>
-                <Image source={require('../../../assets/images/rank/Platinum_1.png')} style={styles.avatar} />
-                <Text style={styles.fontBig}>MnR LightPhantom</Text>
-                <Text style={styles.fontSmall}>Vinicius Carneiro da Silva</Text>
-              </View>
+            <View style={styles.line} />
 
-              <View style={styles.line} />
+            <Text style={styles.fontMedium}>Elo: Platina III</Text>
+            <Text style={styles.fontMedium}>Lanes: Jungle, Adc</Text>
+            <Text style={styles.fontMedium}>Pool: Draven, Rengar, Jhin </Text>
 
-              <Text style={styles.fontMedium}>Elo: Platina III</Text>
-              <Text style={styles.fontMedium}>Lanes: Jungle, Adc</Text>
-              <Text style={styles.fontMedium}>Pool: Draven, Rengar, Jhin</Text>
-
-              <View style={{alignItems: 'center'}}>
-                <Button
-                  onPress={() => {}}
-                  buttonStyle={styles.buttonSelect}
-                  titleStyle={styles.buttonFont}
-                  title={'RECRUTAR'}
-                />
-              </View>
+            <View style={{ alignItems: 'center' }}>
+              <Button
+                onPress={() => { }}
+                buttonStyle={styles.buttonSelect}
+                titleStyle={styles.buttonFont}
+                title={'RECRUTAR'}
+              />
             </View>
-          </ScrollView>
-        </View>
+          </View>
+
+          <View style={styles.playerBox}>
+            <View style={styles.header}>
+              <Image source={require('../../../assets/images/rank/Platinum_1.png')} style={styles.avatar} />
+              <Text style={styles.fontBig}>MnR LightPhantom</Text>
+              <Text style={styles.fontSmall}>Vinicius Carneiro da Silva</Text>
+            </View>
+
+            <View style={styles.line} />
+
+            <Text style={styles.fontMedium}>Elo: Platina III</Text>
+            <Text style={styles.fontMedium}>Lanes: Jungle, Adc</Text>
+            <Text style={styles.fontMedium}>Pool: Draven, Rengar, Jhin</Text>
+
+            <View style={{ alignItems: 'center' }}>
+              <Button
+                onPress={() => { }}
+                buttonStyle={styles.buttonSelect}
+                titleStyle={styles.buttonFont}
+                title={'RECRUTAR'}
+              />
+            </View>
+          </View>
+        </ScrollView>
       </View>
     </>
   );
@@ -244,7 +242,7 @@ const styles = StyleSheet.create({
 
   topBar: {
     height: 50,
-    backgroundColor: 'black',
+    backgroundColor: COLORS.zchumboEscuro,
     width: wp('100%'),
     paddingHorizontal: 10,
     flexDirection: 'row',
@@ -268,29 +266,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
   },
 
-  footer: {
-    height: 50,
-    backgroundColor: 'black',
-    width: wp('100%'),
-    flexDirection: 'row',
-    borderTopWidth: 1,
-    borderColor: '#FFF',
-    paddingHorizontal: 15,
-    alignItems: 'center',
-  },
 
   line: {
     borderBottomColor: COLORS.zcinzaClaro,
     borderBottomWidth: 1,
-    marginVertical: 5,
+    marginBottom: 15,
   },
 
   playerBox: {
-    borderRadius: 15,
+    borderRadius: 5,
     padding: 10,
     marginVertical: 10,
-    borderColor: COLORS.Turquoise,
-    backgroundColor: COLORS.zchumboEscuro,
+    backgroundColor: COLORS.zchumboMedio,
+    elevation: 8
   },
 
   header: {
@@ -309,27 +297,18 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 
-  input: {
-    height: 35,
-    backgroundColor: COLORS.zchumboClaro,
-    color: COLORS.zcinzaClaro,
-    paddingLeft: 10,
-    fontFamily: 'MavenPro-Bold',
-    borderRadius: 5,
-    marginVertical: 3,
-  },
-
   buttonSelect: {
     marginTop: 10,
-    backgroundColor: COLORS.zcinzaClaro,
-    borderRadius: 4,
+    backgroundColor: COLORS.zchumboEscuro,
+    borderRadius: 5,
     paddingHorizontal: 30,
     borderColor: COLORS.zcinzaClaro,
-    borderWidth: 1,
+    borderRightWidth: 1,
+    borderBottomWidth: 1,
   },
 
   buttonFont: {
-    color: 'black',
+    color: COLORS.White,
     fontFamily: 'MavenPro-Bold',
     fontSize: 20,
   },
@@ -392,10 +371,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 0,
     left: -15,
-  },
-
-  rowCheck: {
-    flexDirection: 'row',
   },
 
   checkFont: {
