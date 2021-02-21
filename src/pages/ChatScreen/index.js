@@ -18,10 +18,8 @@ import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
-const colorBase = '#5abdb8';
-const colorSection = '#2c2e2e';
-const colorFont = '#adaeae';
-const colorInput = '#202223';
+
+import * as COLORS from '../../../assets/colorations'
 const boxColor = '#3b3d3d';
 
 
@@ -44,7 +42,7 @@ const ChatScreen = () => {
         <Icon
           onPress={() => navigation.goBack()}
           name="arrow-left"
-          color={colorFont}
+          color={COLORS.zcinzaClaro}
           size={25}
         />
 
@@ -74,13 +72,13 @@ const ChatScreen = () => {
           onChangeText={(text) => setMessage(text)}
           style={styles.input}
           placeholder="Escreva uma mensagem"
-          placeholderTextColor={colorFont}
-          selectionColor={colorBase}
+          placeholderTextColor={COLORS.zcinzaClaro}
+          selectionColor={COLORS.Turquoise}
         />
         <Icon
           onPress={() => { }}
           name="chevron-circle-right"
-          color={colorFont}
+          color={COLORS.zcinzaClaro}
           size={35}
         />
       </View>
@@ -96,43 +94,43 @@ export default ChatScreen;
 const styles = StyleSheet.create({
   fontSmall: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.White,
     fontSize: 14,
   },
 
   fontMedium: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.Turquoise,
     fontSize: 20,
-  },
-
-  fontBigMy: {
-    fontFamily: 'MavenPro-Bold',
-    color: colorBase,
-    fontSize: 28,
-    marginBottom: 15
   },
 
   fontBig: {
     fontFamily: 'MavenPro-Bold',
-    color: 'white',
+    color: COLORS.Turquoise,
+    fontSize: 28,
+    marginBottom: 15
+  },
+
+  fontBigMy: {
+    fontFamily: 'MavenPro-Bold',
+    color: COLORS.zcinzaClaro,
     fontSize: 28,
     marginBottom: 15
   },
 
   background: {
     flex: 1,
-    backgroundColor: colorSection,
+    backgroundColor: COLORS.Pewter,
   },
 
   header: {
-    backgroundColor: 'black',
+    backgroundColor: COLORS.zchumboEscuro,
     paddingHorizontal: 10,
     paddingVertical: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderColor: '#FFF',
+    borderBottomWidth: 0,
+    borderColor: COLORS.White,
   },
 
   body: {
@@ -141,9 +139,9 @@ const styles = StyleSheet.create({
   },
 
   footer: {
-    backgroundColor: 'transparent',
+    backgroundColor: COLORS.zchumboEscuro,
     flexDirection: 'row',
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     borderColor: '#FFF',
     paddingHorizontal: 15,
     paddingVertical: 5,
@@ -160,27 +158,27 @@ const styles = StyleSheet.create({
   textBox: {
     borderRadius: 15,
     padding: 10,
-    marginBottom: 8,
+    marginVertical: 5,
     marginRight: 40,
     marginLeft: 15,
-    borderColor: colorBase,
-    backgroundColor: boxColor,
+    borderColor: COLORS.Turquoise,
+    backgroundColor: COLORS.zchumboClaro,
   },
 
   textBoxMy: {
     borderRadius: 15,
     padding: 10,
-    marginBottom: 8,
+    marginVertical: 5,
     marginLeft: 40,
     marginRight: 15,
-    borderColor: colorBase,
-    backgroundColor: boxColor,
+    borderColor: COLORS.Turquoise,
+    backgroundColor: COLORS.zchumboClaro,
   },
 
   input: {
     height: 35,
-    backgroundColor: colorInput,
-    color: colorFont,
+    backgroundColor: COLORS.zchumboEscuro,
+    color: COLORS.zcinzaClaro,
     paddingHorizontal: 10,
     fontFamily: 'MavenPro-Bold',
     borderRadius: 5,
@@ -191,10 +189,10 @@ const styles = StyleSheet.create({
   buttonSearch: {
     height: 35,
     marginLeft: 10,
-    backgroundColor: colorInput,
+    backgroundColor: COLORS.zchumboEscuro,
     maxWidth: wp('10%'),
     borderRadius: 60,
-    borderColor: colorFont,
+    borderColor: COLORS.zcinzaClaro,
     borderWidth: 1,
   },
 
@@ -210,7 +208,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: 'transparent',
-    borderLeftColor: boxColor,
+    borderLeftColor: COLORS.zchumboClaro,
   },
   triangleLeft: {
     position: 'absolute',
@@ -222,7 +220,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 10,
     borderLeftWidth: 0,
     borderTopColor: 'transparent',
-    borderRightColor: boxColor,
+    borderRightColor: COLORS.zchumboClaro,
     borderBottomColor: 'transparent',
     borderLeftColor: "transparent",
   }

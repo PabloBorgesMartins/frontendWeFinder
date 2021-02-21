@@ -15,8 +15,6 @@ import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 import * as COLORS from '../../../assets/colorations'
-const colorFont = '#adaeae';
-const colorInput = '#202223';
 const boxColor = '#3b3d3d';
 
 const isLeader = true;
@@ -79,25 +77,25 @@ export default ChatList;
 const styles = StyleSheet.create({
   fontSmall: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
-    fontSize: 12,
+    color: COLORS.zcinzaClaro,
+    fontSize: 14,
   },
 
   fontMedium: {
     fontFamily: 'MavenPro-Bold',
-    color: colorFont,
+    color: COLORS.zcinzaClaro,
     fontSize: 20,
   },
 
   fontBig: {
     fontFamily: 'MavenPro-Bold',
     color: 'white',
-    fontSize: 28,
+    fontSize: 25,
     marginBottom: 5
   },
 
   background: {
-    backgroundColor: colorInput,
+    backgroundColor: COLORS.zchumboEscuro,
     flexGrow: 1,
     zIndex: 1,
   },
@@ -113,7 +111,7 @@ const styles = StyleSheet.create({
     padding: 15,
     borderBottomWidth: 2,
     borderColor: COLORS.Turquoise,
-    backgroundColor: boxColor,
+    backgroundColor: COLORS.zchumboClaro,
   },
 
   buttonSearch: {
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.JetBlack,
     maxWidth: wp('40%'),
     borderRadius: 60,
-    borderColor: colorFont,
+    borderColor: COLORS.zcinzaClaro,
     borderWidth: 1,
     elevation: 10
   },
