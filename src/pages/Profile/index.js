@@ -5,9 +5,6 @@ import {
   StyleSheet,
   ScrollView,
   Image,
-  TouchableHighlight,
-  TouchableOpacity,
-  Button
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconMaterial from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,6 +13,8 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/auth'
 
 import * as COLORS from '../../../assets/colorations'
+
+import { data } from './user'
 
 const Profile = () => {
   const navigation = useNavigation();
@@ -34,43 +33,43 @@ const Profile = () => {
 
       <View style={styles.header}>
         <View style={styles.iconsContainer}>
-          <IconMaterial
-            name="logout"
-            color={COLORS.Turquoise}
-            size={30}
-            onPress={() => handleSignOut()}
-          />
           <Icon
             name="cog"
             color={COLORS.Turquoise}
             size={30}
             onPress={() => goToEditProfile()}
           />
+          <IconMaterial
+            name="logout"
+            color={COLORS.Turquoise}
+            size={30}
+            onPress={() => handleSignOut()}
+          />
         </View>
-        <Image source={require('../../../assets/images/rank/Diamond_1.png')} style={styles.avatar} />
-        <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>dBlackOwl</Text>
-        <Text style={[styles.fontSmall, {color: COLORS.zcolorBase}]}>Pablo Borges Martins</Text>
+        <Image source={require('../../../assets/images/rank/Diamante_1.png')} style={styles.avatar} />
+        <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{data.nickname}</Text>
+        <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{data.name}</Text>
       </View>
 
       <View style={styles.line} />
 
       <ScrollView style={styles.containerBody} >
-          <View style={styles.containerPlayerData}>
-            <Text style={styles.fontBig}>Elo</Text>
-            <Text style={styles.fontSmall}>Platina III</Text>
-          </View>
-          <View style={styles.containerPlayerData}>
-            <Text style={styles.fontBig}>Lanes</Text>
-            <Text style={styles.fontSmall}>Jungle, Adc</Text>
-          </View>
-          <View style={styles.containerPlayerData}>
-            <Text style={styles.fontBig}>Champion Pool</Text>
-            <Text style={styles.fontSmall}>Draven, Rengar, Jhin</Text>
-          </View>
-          <View style={styles.containerPlayerData}>
-            <Text style={styles.fontBig}>Telefone</Text>
-            <Text style={styles.fontSmall}>(35)98464-0000</Text>
-          </View>
+        <View style={styles.containerPlayerData}>
+          <Text style={styles.fontBig}>Elo</Text>
+          <Text style={styles.fontSmall}>{`${data.elo} ${data.divisao}`}</Text>
+        </View>
+        <View style={styles.containerPlayerData}>
+          <Text style={styles.fontBig}>Lanes</Text>
+          <Text style={styles.fontSmall}>{data.lanes}</Text>
+        </View>
+        <View style={styles.containerPlayerData}>
+          <Text style={styles.fontBig}>Champion Pool</Text>
+          <Text style={styles.fontSmall}>{data.pool}</Text>
+        </View>
+        <View style={styles.containerPlayerData}>
+          <Text style={styles.fontBig}>Telefone</Text>
+          <Text style={styles.fontSmall}>(35)98464-0000</Text>
+        </View>
       </ScrollView>
     </View>
   );
@@ -83,6 +82,7 @@ const styles = StyleSheet.create({
     fontFamily: 'MavenPro-Bold',
     color: COLORS.White,
     fontSize: 15,
+    textAlign: 'center'
   },
 
   fontMedium: {
@@ -104,9 +104,9 @@ const styles = StyleSheet.create({
 
   iconsContainer: {
     flexDirection: 'row',
-    justifyContent: "flex-end",
+    justifyContent: "space-between",
     width: '100%',
-    paddingRight: 10,
+    paddingHorizontal: 10,
     paddingTop: 10,
   },
 
@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
 
   containerBody: {
     backgroundColor: COLORS.Charcoal,
+    paddingHorizontal: 33
   },
 
   containerPlayerData: {

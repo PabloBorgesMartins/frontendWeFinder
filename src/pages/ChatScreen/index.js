@@ -14,13 +14,11 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 
 import * as COLORS from '../../../assets/colorations'
-const boxColor = '#3b3d3d';
 
 
 import { data } from './chat'
@@ -95,32 +93,32 @@ const styles = StyleSheet.create({
   fontSmall: {
     fontFamily: 'MavenPro-Bold',
     color: COLORS.White,
-    fontSize: 14,
+    fontSize: 15,
   },
 
   fontMedium: {
     fontFamily: 'MavenPro-Bold',
     color: COLORS.Turquoise,
-    fontSize: 20,
+    fontSize: 25,
   },
 
   fontBig: {
     fontFamily: 'MavenPro-Bold',
     color: COLORS.Turquoise,
-    fontSize: 28,
+    fontSize: 30,
     marginBottom: 15
   },
 
   fontBigMy: {
     fontFamily: 'MavenPro-Bold',
-    color: COLORS.zcinzaClaro,
-    fontSize: 28,
+    color: COLORS.zchumboEscuro,
+    fontSize: 30,
     marginBottom: 15
   },
 
   background: {
     flex: 1,
-    backgroundColor: COLORS.Pewter,
+    backgroundColor: COLORS.Charcoal,
   },
 
   header: {
@@ -162,7 +160,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
     marginLeft: 15,
     borderColor: COLORS.Turquoise,
-    backgroundColor: COLORS.zchumboClaro,
+    backgroundColor: COLORS.zchumboMedio,
   },
 
   textBoxMy: {
@@ -172,7 +170,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     marginRight: 15,
     borderColor: COLORS.Turquoise,
-    backgroundColor: COLORS.zchumboClaro,
+    backgroundColor: COLORS.zcolorBase,
   },
 
   input: {
@@ -208,7 +206,7 @@ const styles = StyleSheet.create({
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
     borderBottomColor: 'transparent',
-    borderLeftColor: COLORS.zchumboClaro,
+    borderLeftColor: COLORS.zcolorBase,
   },
   triangleLeft: {
     position: 'absolute',
@@ -220,7 +218,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 10,
     borderLeftWidth: 0,
     borderTopColor: 'transparent',
-    borderRightColor: COLORS.zchumboClaro,
+    borderRightColor: COLORS.zchumboMedio,
     borderBottomColor: 'transparent',
     borderLeftColor: "transparent",
   }
