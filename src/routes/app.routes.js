@@ -9,6 +9,7 @@ import tabHome from '../routes/tabHome';
 import ChatScreen from '../pages/ChatScreen';
 import EditUser from '../pages/EditUser';
 import ListUsers from '../pages/ListUsers';
+import ProfilePlayer from  '../pages/ProfilePlayer'
 
 
 const AppStack = createStackNavigator();
@@ -24,6 +25,7 @@ const Routes = () => {
             <AppStack.Screen name="EditUser" component={EditUser} />
 
             <AppStack.Screen name="ChatScreen" component={ChatScreen} />
+            <AppStack.Screen name="ProfilePlayer" component={ProfilePlayer} />
         </AppStack.Navigator>
     );
 };

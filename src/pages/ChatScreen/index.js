@@ -30,13 +30,17 @@ const ChatScreen = () => {
   const navigation = useNavigation();
 
   function goToProfile() {
-    navigation.navigate('Profile');
+    console.log('ta entrando')
+    navigation.navigate('ProfilePlayer');
   }
 
 
   return (
-    <View style={styles.background}>
-      <View style={styles.header}>
+    <View style={styles.background} >
+      <TouchableOpacity
+        style={styles.header}
+        onPress={() => goToProfile()}
+      >
         <Icon
           onPress={() => navigation.goBack()}
           name="arrow-left"
@@ -45,9 +49,9 @@ const ChatScreen = () => {
         />
 
         <Text style={[styles.fontMedium, { marginLeft: 20 }]}>Pinga</Text>
-      </View>
+      </TouchableOpacity>
 
-      <ScrollView style={{ flex:1 }}>
+      <ScrollView style={{ flex: 1 }}>
         {
           data.map((item) => {
             if (item) {

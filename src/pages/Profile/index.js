@@ -53,7 +53,7 @@ const Profile = () => {
 
       <View style={styles.line} />
 
-      <ScrollView style={styles.containerBody} >
+      <View style={styles.containerBody} >
         <View style={styles.containerPlayerData}>
           <Text style={styles.fontBig}>Elo</Text>
           <Text style={styles.fontSmall}>{`${data.elo} ${data.divisao}`}</Text>
@@ -70,7 +70,7 @@ const Profile = () => {
           <Text style={styles.fontBig}>Telefone</Text>
           <Text style={styles.fontSmall}>(35)98464-0000</Text>
         </View>
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -132,7 +132,9 @@ const styles = StyleSheet.create({
 
   containerBody: {
     backgroundColor: COLORS.Charcoal,
-    paddingHorizontal: 33
+    paddingHorizontal: 33,
+    flex: 1,
+    justifyContent: 'space-around'
   },
 
   containerPlayerData: {

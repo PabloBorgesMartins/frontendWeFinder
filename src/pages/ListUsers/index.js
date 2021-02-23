@@ -141,11 +141,11 @@ const ListUsers = () => {
               if (item) {
                 return (
                   <View key={item.id} style={styles.playerBox}>
-                    <View style={styles.header}>
+                    <TouchableOpacity style={styles.header} onPress={() => navigation.navigate('ProfilePlayer')}>
                       <Image source={require('../../../assets/images/rank/Diamante_4.png')} style={styles.avatar} />
                       <Text style={styles.fontBig}>{item.nickname}</Text>
                       <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{item.name}</Text>
-                    </View>
+                    </TouchableOpacity>
 
                     <View style={styles.line} />
 
