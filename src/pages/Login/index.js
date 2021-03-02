@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   ActivityIndicator,
   StatusBar,
@@ -18,8 +18,8 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Input, Button} from 'react-native-elements';
-import {useNavigation} from '@react-navigation/native';
+import { Input, Button } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -32,7 +32,6 @@ import { useAuth } from '../../hooks/auth'
 
 
 import * as COLORS from '../../../assets/colorations'
-const colorSection = '#2c2e2e';
 
 
 const Login = () => {
@@ -47,52 +46,47 @@ const Login = () => {
 
   const { signIn } = useAuth();
 
-  const handleSignIn = useCallback(
-    async () => {
+  const handleSignIn = async () => {
+    const data = {
+      email: username,
+      password
+    }
 
-      const data = {
-        email: "jose@a.com",
-        password: "jds891jd919d1"
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string()
+          .required('Email obrigatório')
+          .email('Digite um email válido'),
+        password: Yup.string().required('Senha obrigatória'),
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      await signIn({
+        email: data.email,
+        password: data.password,
+      });
+    } catch (err) {
+      if (err instanceof Yup.ValidationError) {
+        const errors = getValidationErrors(err);
+        Alert.alert('Atenção!', errors[0]);
+        return;
       }
 
-      try {
-        const schema = Yup.object().shape({
-          email: Yup.string()
-            .required('Email obrigatório')
-            .email('Digite um email válido'),
-          password: Yup.string().required('Senha obrigatória'),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-
-        await signIn({
-          email: data.email,
-          password: data.password,
-        });
-
-        Alert.alert(
-          'Chegou no final!'
-        );
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-
-          return;
-        }
-
-        Alert.alert(
-          'Erro na autenticação',
-          'Ocorreu um erro ao fazer login, cheque suas credenciais'
-        );
-      }
-    }, [signIn]);
+      Alert.alert(
+        'Erro na autenticação',
+        'Ocorreu um erro ao fazer login, cheque suas credenciais'
+      );
+    }
+  };
 
   return (
     <>
       <View style={styles.background}>
         <KeyboardAvoidingView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
           <View style={styles.section}>
             <View style={styles.containerHeader}>
@@ -116,7 +110,7 @@ const Login = () => {
                 />
                 <TouchableHighlight
                   style={styles.touch}
-                  onPress={() => {}}
+                  onPress={() => { }}
                   underlayColor={COLORS.zchumboMedio}
                   activeOpacity={0.3}>
                   <Text style={styles.fonteCadaster}>Esqueci minha senha</Text>

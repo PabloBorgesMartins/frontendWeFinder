@@ -1,25 +1,27 @@
 import React from 'react';
-import { ActivityIndicator, View } from 'react-native'
 
 
 import AuthRoutes from './auth.routes';
 import AppRoutes from './app.routes';
 
+import LoaderModal from '../components/LoaderModal'
+
 import { useAuth } from '../hooks/auth'
 
 const Routes = () => {
-    const { user, loading } = useAuth();
+    const { user } = useAuth();
 
-
-    if (loading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size="large" color="#f5f5" />
-            </View>
+    return user ? (
+        <>
+            <AppRoutes />
+            <LoaderModal />
+        </>
+    ) : (
+            <>
+                <AuthRoutes />
+                <LoaderModal />
+            </>
         );
-    }
-
-    return user ? <AppRoutes /> : <AuthRoutes />
 }
 
 export default Routes;

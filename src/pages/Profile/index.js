@@ -18,7 +18,7 @@ import { data } from './user'
 
 const Profile = () => {
   const navigation = useNavigation();
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
 
   function goToEditProfile() {
     navigation.navigate('EditUser');
@@ -47,8 +47,8 @@ const Profile = () => {
           />
         </View>
         <Image source={require('../../../assets/images/rank/Diamante_1.png')} style={styles.avatar} />
-        <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{data.nickname}</Text>
-        <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{data.name}</Text>
+        <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{user.name}</Text>
+        <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{user.last_name}</Text>
       </View>
 
       <View style={styles.line} />
@@ -56,7 +56,7 @@ const Profile = () => {
       <View style={styles.containerBody} >
         <View style={styles.containerPlayerData}>
           <Text style={styles.fontBig}>Elo</Text>
-          <Text style={styles.fontSmall}>{`${data.elo} ${data.divisao}`}</Text>
+          <Text style={styles.fontSmall}>{`${user.elo} ${user.division}`}</Text>
         </View>
         <View style={styles.containerPlayerData}>
           <Text style={styles.fontBig}>Lanes</Text>
@@ -64,11 +64,11 @@ const Profile = () => {
         </View>
         <View style={styles.containerPlayerData}>
           <Text style={styles.fontBig}>Champion Pool</Text>
-          <Text style={styles.fontSmall}>{data.pool}</Text>
+          <Text style={styles.fontSmall}>{user.champion_pool}</Text>
         </View>
         <View style={styles.containerPlayerData}>
           <Text style={styles.fontBig}>Telefone</Text>
-          <Text style={styles.fontSmall}>(35)98464-0000</Text>
+          <Text style={styles.fontSmall}>{user.whatsapp}</Text>
         </View>
       </View>
     </View>

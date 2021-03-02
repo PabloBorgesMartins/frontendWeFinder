@@ -1,22 +1,21 @@
 import React, { createContext, useCallback, useState, useContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-// import api from '../services/api';
-
+import api from '../services/api';
 
 
 const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
   const [data, setData] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         async function loadStoragedData(){
             const [token, user] = await AsyncStorage.multiGet([
-                '@Ativamente:token',
-                '@Ativamente:user'
+                '@WeFinder:token',
+                '@WeFinder:user'
             ]);
-
+            console.log('USER -> ', JSON.parse(user[1]))
             if(token[1] && user[1]){
                 setData({ token: token[1], user: JSON.parse(user[1])})
             }
@@ -28,33 +27,35 @@ const AuthProvider = ({ children }) => {
     }, [])
 
   const signIn = useCallback(async ({ email, password }) => {
-    // const response = await api.post('sessions', {
-    //   email,
-    //   password,
-    // });
+    setLoading(true);
 
-    // const { token, user } = response.data;
+    await api.post('/session', {
+      email: email,
+      password: password,
+    }).then(async (res) => {
+      const { token, user } = res.data;
 
-    let token = "JOSEJSOEJOSJOE"
-    let user = {
-        name: "Pablo",
-        lane: "Jungle",
-        pool: "Draven",
-        representative: true
-    }
-
-    await AsyncStorage.multiSet([
-        ['@Ativamente:token', token],
-        ['@Ativamente:user', JSON.stringify(user)]
-    ])
-
-    setData({ token, user });
+      await AsyncStorage.multiSet([
+        ['@WeFinder:token', token],
+        ['@WeFinder:user', JSON.stringify(user)],
+      ]);
+      setData({ token, user });
+      setLoading(false);
+    }).catch((err) => {
+      console.log('ERR do backend -> ');
+      console.log(err);
+      setLoading(false);
+      Alert.alert(
+        'Erro ao fazer Login!',
+        'Cheque suas credenciais!',
+      );
+    });
   }, []);
 
   const signOut = useCallback(async () => {
     await AsyncStorage.multiRemove([
-        '@Ativamente:token',
-        '@Ativamente:user'
+        '@WeFinder:token',
+        '@WeFinder:user'
     ]);
 
     setData({});
