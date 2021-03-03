@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -7,7 +7,6 @@ import {
   ScrollView,
   TouchableOpacity,
   TouchableHighlight,
-  TextInput,
   Image,
   Modal,
 } from 'react-native';
@@ -15,11 +14,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { CheckBox, Input, Button } from 'react-native-elements';
+import { CheckBox, Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Picker } from '@react-native-community/picker';
 import { useNavigation } from '@react-navigation/native';
 
+import api from '../../services/api'
 
 import * as COLORS from '../../../assets/colorations'
 import { data } from './users'
@@ -31,9 +31,23 @@ const ListUsers = () => {
   const [mid, setMid] = useState(true);
   const [adc, setAdc] = useState(true);
   const [sup, setSup] = useState(true);
-  const [language, setLanguage] = useState('java');
+  const [filterElo, setFilterElo] = useState('ouro');
+  const [users, setUsers] = useState([]);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    async function loadStoragedData() {
+      await api.get('/users')
+        .then(async (res) => {
+          console.log('USERS[0]->', res.data[0])
+          setUsers(res.data)
+        }).catch((err) => {
+          console.log('ERR do backend ->', err);
+        });
+    }
+    loadStoragedData();
+  }, [])
 
   return (
     <>
@@ -61,12 +75,15 @@ const ListUsers = () => {
                 <Text style={styles.modalFont}>SELECIONE O ELO MÍNIMO</Text>
 
                 <Picker
-                  selectedValue={language}
+                  selectedValue={filterElo}
                   mode="dropdown"
                   style={{ height: 50, width: 200 }}
                   onValueChange={(itemValue, itemIndex) =>
-                    setLanguage(itemValue)
+                    setFilterElo(itemValue)
                   }>
+                  <Picker.Item label="Ferro" value="ferro" />
+                  <Picker.Item label="Bronze" value="bronze" />
+                  <Picker.Item label="Prata" value="prata" />
                   <Picker.Item label="Ouro" value="ouro" />
                   <Picker.Item label="Platina" value="platina" />
                   <Picker.Item label="Diamante" value="diamante" />
@@ -137,7 +154,7 @@ const ListUsers = () => {
 
         <ScrollView style={styles.body}>
           {
-            data.map((item) => {
+            users.map((item) => {
               if (item) {
                 return (
                   <View key={item.id} style={styles.playerBox}>
@@ -149,9 +166,9 @@ const ListUsers = () => {
 
                     <View style={styles.line} />
 
-                    <Text style={styles.fontUserQualitys}>Elo: {`${item.elo} ${item.divisao}`}</Text>
+                    <Text style={styles.fontUserQualitys}>Elo: {`${item.elo} ${item.division}`}</Text>
                     <Text style={styles.fontUserQualitys}>Lanes: {item.lanes}</Text>
-                    <Text style={styles.fontUserQualitys}>Pool: {item.pool}</Text>
+                    <Text style={styles.fontUserQualitys}>Pool: {item.champion_pool}</Text>
 
                     <View style={{ alignItems: 'center' }}>
                       <Button
