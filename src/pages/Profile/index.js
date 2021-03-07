@@ -13,6 +13,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../../hooks/auth'
 
 import * as COLORS from '../../../assets/colorations'
+import { eloImages } from '../../utils/getImages'
 
 import { data } from './user'
 
@@ -46,7 +47,7 @@ const Profile = () => {
             onPress={() => handleSignOut()}
           />
         </View>
-        <Image source={require('../../../assets/images/rank/Diamante_1.png')} style={styles.avatar} />
+        <Image source={eloImages(`${user.elo}_${user.division}`)} style={styles.avatar} />
         <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{user.name}</Text>
         <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{user.last_name}</Text>
       </View>
@@ -60,7 +61,13 @@ const Profile = () => {
         </View>
         <View style={styles.containerPlayerData}>
           <Text style={styles.fontBig}>Lanes</Text>
-          <Text style={styles.fontSmall}>{data.lanes}</Text>
+          <View style={styles.containerLanes}>
+            {!!user.isTop && <Image source={require('../../../assets/images/lane/Top.png')} style={styles.lane} />}
+            {!!user.isJungle && <Image source={require('../../../assets/images/lane/Jungle.png')} style={styles.lane} />}
+            {!!user.isMid && <Image source={require('../../../assets/images/lane/Mid.png')} style={styles.lane} />}
+            {!!user.isAdc && <Image source={require('../../../assets/images/lane/Adc.png')} style={styles.lane} />}
+            {!!user.isSup && <Image source={require('../../../assets/images/lane/Suporte.png')} style={styles.lane} />}
+          </View>
         </View>
         <View style={styles.containerPlayerData}>
           <Text style={styles.fontBig}>Champion Pool</Text>
@@ -140,5 +147,17 @@ const styles = StyleSheet.create({
   containerPlayerData: {
     marginBottom: 10,
     alignItems: 'center',
+  },
+
+  containerLanes: {
+    marginTop: 10,
+    flexDirection: 'row',
+  },
+
+  lane: {
+    marginHorizontal: 5,
+    width: 40,
+    height: 40,
+    tintColor: COLORS.White
   },
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Text,
   View,
@@ -15,7 +15,8 @@ import { Button } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 import * as COLORS from '../../../assets/colorations'
-const boxColor = '#3b3d3d';
+import api from '../../services/api'
+import LoaderView from '../../components/LoaderView'
 
 const isLeader = true;
 
@@ -24,12 +25,36 @@ import { data } from './chat'
 const ChatList = () => {
   const navigation = useNavigation();
 
-  function goToChat() {
-    navigation.navigate('ChatScreen');
+  const [chatList, setChatList] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadStoragedData() {
+      await api.get('/chat')
+        .then(async (res) => {
+          setChatList(res.data)
+          setLoading(false);
+        }).catch((err) => {
+          console.log('ERR do backend ->', err);
+          setLoading(false);
+        });
+    }
+    loadStoragedData();
+  }, [])
+
+  function goToChat(id, name) {
+    navigation.navigate('ChatScreen', {
+      chat_id: id,
+      friendName: name
+    });
   }
 
   function goToPlayerList() {
     navigation.navigate('ListUsers');
+  }
+
+  if (loading) {
+    return <LoaderView />
   }
 
   return (
@@ -46,7 +71,7 @@ const ChatList = () => {
       ) : null}
 
       <View style={styles.background}>
-        <ScrollView>
+        {/* <ScrollView>
           {
             data.map((item) => {
               if (item) {
@@ -59,8 +84,33 @@ const ChatList = () => {
                     <Text style={styles.fontSmall}>{item.name}</Text>
                   </TouchableOpacity>
                 )
-              }else{
-                return(
+              } else {
+                return (
+                  <Text style={styles.fontBig}>Você Não possui conversas</Text>
+                )
+              }
+            })
+          }
+        </ScrollView> */}
+        <ScrollView>
+          {
+            chatList.map((item) => {
+              if (item) {
+                return (
+                  <TouchableOpacity
+                    key={item.chat_id}
+                    onPress={() => goToChat(item.chat_id, item.nickname, item.userPrimary, item.userSecondary)}
+                    style={styles.chatBox}
+                  >
+                    <View style={styles.timeContainer}>
+                      <Text style={styles.fontSmall}>11:00</Text>
+                    </View>
+                    <Text style={styles.fontBig}>{item.nickname}</Text>
+                    <Text style={styles.fontSmall}>{item.name}</Text>
+                  </TouchableOpacity>
+                )
+              } else {
+                return (
                   <Text style={styles.fontBig}>Você Não possui conversas</Text>
                 )
               }

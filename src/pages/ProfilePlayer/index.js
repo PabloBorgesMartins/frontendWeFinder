@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     Text,
     View,
@@ -9,22 +9,39 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
-import { useAuth } from '../../hooks/auth'
+import api from '../../services/api'
 
+import LoaderView from '../../components/LoaderView'
 import * as COLORS from '../../../assets/colorations'
+import { eloImages } from '../../utils/getImages'
 
 import { data } from './user'
 
-const ProfilePlayer = () => {
+const ProfilePlayer = ({ route }) => {
     const navigation = useNavigation();
-    const { signOut } = useAuth();
 
-    function goToEditProfile() {
-        navigation.navigate('EditUser');
-    }
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    async function handleSignOut() {
-        await signOut();
+    const { user_id } = route.params;
+
+    useEffect(() => {
+        async function loadStoragedData() {
+            await api.get(`/user/${user_id}`)
+                .then(async (res) => {
+                    console.log('USERS BUSCADO->', res.data.user)
+                    await setUser(res.data.user)
+                    setLoading(false);
+                }).catch((err) => {
+                    console.log('ERR do backend ->', err);
+                    setLoading(false);
+                });
+        }
+        loadStoragedData();
+    }, [])
+
+    if (loading) {
+        return <LoaderView />
     }
 
     return (
@@ -39,9 +56,9 @@ const ProfilePlayer = () => {
                         size={30}
                     />
                 </View>
-                <Image source={require('../../../assets/images/rank/Diamante_1.png')} style={styles.avatar} />
-                <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{data.nickname}</Text>
-                <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{data.name}</Text>
+                <Image source={eloImages(`${user.elo}_${user.division}`)} style={styles.avatar} />
+                <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{user.nickname}</Text>
+                <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{`${user.name} ${user.last_name}`}</Text>
             </View>
 
             <View style={styles.line} />
@@ -49,19 +66,25 @@ const ProfilePlayer = () => {
             <View style={styles.containerBody} >
                 <View style={styles.containerPlayerData}>
                     <Text style={styles.fontBig}>Elo</Text>
-                    <Text style={styles.fontSmall}>{`${data.elo} ${data.divisao}`}</Text>
+                    <Text style={styles.fontSmall}>{`${user.elo} ${user.division}`}</Text>
                 </View>
                 <View style={styles.containerPlayerData}>
                     <Text style={styles.fontBig}>Lanes</Text>
-                    <Text style={styles.fontSmall}>{data.lanes}</Text>
+                    <View style={styles.containerLanes}>
+                        {!!user.isTop && <Image source={require('../../../assets/images/lane/Top.png')} style={styles.lane} />}
+                        {!!user.isJungle && <Image source={require('../../../assets/images/lane/Jungle.png')} style={styles.lane} />}
+                        {!!user.isMid && <Image source={require('../../../assets/images/lane/Mid.png')} style={styles.lane} />}
+                        {!!user.isAdc && <Image source={require('../../../assets/images/lane/Adc.png')} style={styles.lane} />}
+                        {!!user.isSup && <Image source={require('../../../assets/images/lane/Suporte.png')} style={styles.lane} />}
+                    </View>
                 </View>
                 <View style={styles.containerPlayerData}>
                     <Text style={styles.fontBig}>Champion Pool</Text>
-                    <Text style={styles.fontSmall}>{data.pool}</Text>
+                    <Text style={styles.fontSmall}>{user.champion_pool}</Text>
                 </View>
                 <View style={styles.containerPlayerData}>
                     <Text style={styles.fontBig}>Telefone</Text>
-                    <Text style={styles.fontSmall}>(35)98464-0000</Text>
+                    <Text style={styles.fontSmall}>{user.whatsapp}</Text>
                 </View>
             </View>
         </View>
@@ -133,5 +156,17 @@ const styles = StyleSheet.create({
     containerPlayerData: {
         marginBottom: 10,
         alignItems: 'center',
+    },
+
+    containerLanes: {
+        marginTop: 10,
+        flexDirection: 'row',
+    },
+
+    lane: {
+        marginHorizontal: 5,
+        width: 40,
+        height: 40,
+        tintColor: COLORS.White
     },
 });

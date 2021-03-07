@@ -25,10 +25,10 @@ import * as Yup from 'yup';
 import getValidationErrors from '../../utils/getValidationErrors'
 
 import avatar from '../../../assets/images/avatarWeFinder.png';
-
+import api from '../../services/api'
 import * as COLORS from '../../../assets/colorations'
 
-const SignUpEmail = () => {
+const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -90,14 +90,14 @@ const SignUpEmail = () => {
     let data = {
       email,
       password,
-      checkPassword: passwordConfirmation
+      passwordConfirmation
     }
 
     try {
       const schema = Yup.object().shape({
         email: Yup.string().required('Email obrigatório!').email('Digite um email válido'),
         password: Yup.string().required('Senha obrigatória').min(6, 'A senha deve ter no mínimo 6 caracteres!'),
-        checkPassword: Yup.string()
+        passwordConfirmation: Yup.string()
           .oneOf([Yup.ref('password'), null], 'Senha e confirmação de senha devem ser iguais!')
       });
 
@@ -105,7 +105,51 @@ const SignUpEmail = () => {
         abortEarly: false,
       });
 
-      setNivel(nivel + 1)
+      await api.post('/checkemail', {
+        email
+      }).then(async (res) => {
+        console.log('Message checkEmail->', res.data)
+        setNivel(nivel + 1)
+      }).catch((err) => {
+        console.log('ERR checkemail ->', err);
+        Alert.alert("Atenção!", "O email ja está cadastrado na plataforma!")
+      });
+    } catch (error) {
+      const errors = getValidationErrors(error);
+      Alert.alert('Atencão!', errors[0])
+    }
+  }
+
+  async function validateUserData() {
+    let data = {
+      email,
+      password,
+      passwordConfirmation
+    }
+
+    try {
+      const schema = Yup.object().shape({
+        email: Yup.string().required('Email obrigatório!').email('Digite um email válido'),
+        password: Yup.string().required('Senha obrigatória').min(6, 'A senha deve ter no mínimo 6 caracteres!'),
+        passwordConfirmation: Yup.string()
+          .oneOf([Yup.ref('password'), null], 'Senha e confirmação de senha devem ser iguais!')
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      await api.post('/checkemail', {
+        email
+      }).then(async (res) => {
+        console.log('Message checkEmail->', res.data)
+        setNivel(nivel + 1)
+      }).catch((err) => {
+        console.log('ERR checkemail ->', err);
+        Alert.alert("Atenção!", "O email ja está cadastrado na plataforma!")
+      });
+
+      
     } catch (error) {
       const errors = getValidationErrors(error);
       Alert.alert('Atencão!', errors[0])
@@ -209,131 +253,131 @@ const SignUpEmail = () => {
                   </View>
                 </>
               ) : (
-                    <>
-                      <View style={styles.sectionName}>
-                        <Text style={styles.fontName}>DADOS DO PLAYER</Text>
+                <>
+                  <View style={styles.sectionName}>
+                    <Text style={styles.fontName}>DADOS DO PLAYER</Text>
+                  </View>
+
+                  <View style={styles.body}>
+                    <View style={styles.bodyInputs}>
+                      <View style={styles.rowCheck}>
+                        <CheckBox
+                          title="Procuro time"
+                          checkedIcon="dot-circle-o"
+                          uncheckedIcon="circle-o"
+                          onPress={() => setTypePlayer(!typePlayer)}
+                          checked={typePlayer}
+                          textStyle={styles.checkFont}
+                          containerStyle={styles.checkContainer}
+                        />
+                        <CheckBox
+                          title="Prucuro Jogadores"
+                          checkedIcon="dot-circle-o"
+                          uncheckedIcon="circle-o"
+                          onPress={() => setTypePlayer(!typePlayer)}
+                          checked={!typePlayer}
+                          textStyle={styles.checkFont}
+                          containerStyle={styles.checkContainer}
+                        />
                       </View>
+                      <TextInput
+                        onChangeText={(text) => setNick(text)}
+                        style={styles.input}
+                        placeholder="NICK"
+                        value={nick}
+                        placeholderTextColor={COLORS.zcinzaClaro}
+                        selectionColor={COLORS.Turquoise}
+                      />
+                      <TextInput
+                        onChangeText={(text) => setChampionPoll(text)}
+                        style={styles.input}
+                        placeholder="CHAMPION POOL"
+                        value={championPoll}
+                        placeholderTextColor={COLORS.zcinzaClaro}
+                        selectionColor={COLORS.Turquoise}
+                      />
+                      <TextInput
+                        onChangeText={(text) => setElo(text)}
+                        style={styles.input}
+                        placeholder="ELO"
+                        value={elo}
+                        placeholderTextColor={COLORS.zcinzaClaro}
+                        selectionColor={COLORS.Turquoise}
+                      />
 
-                      <View style={styles.body}>
-                        <View style={styles.bodyInputs}>
-                          <View style={styles.rowCheck}>
-                            <CheckBox
-                              title="Procuro time"
-                              checkedIcon="dot-circle-o"
-                              uncheckedIcon="circle-o"
-                              onPress={() => setTypePlayer(!typePlayer)}
-                              checked={typePlayer}
-                              textStyle={styles.checkFont}
-                              containerStyle={styles.checkContainer}
-                            />
-                            <CheckBox
-                              title="Prucuro Jogadores"
-                              checkedIcon="dot-circle-o"
-                              uncheckedIcon="circle-o"
-                              onPress={() => setTypePlayer(!typePlayer)}
-                              checked={!typePlayer}
-                              textStyle={styles.checkFont}
-                              containerStyle={styles.checkContainer}
-                            />
-                          </View>
-                          <TextInput
-                            onChangeText={(text) => setNick(text)}
-                            style={styles.input}
-                            placeholder="NICK"
-                            value={nick}
-                            placeholderTextColor={COLORS.zcinzaClaro}
-                            selectionColor={COLORS.Turquoise}
-                          />
-                          <TextInput
-                            onChangeText={(text) => setChampionPoll(text)}
-                            style={styles.input}
-                            placeholder="CHAMPION POOL"
-                            value={championPoll}
-                            placeholderTextColor={COLORS.zcinzaClaro}
-                            selectionColor={COLORS.Turquoise}
-                          />
-                          <TextInput
-                            onChangeText={(text) => setElo(text)}
-                            style={styles.input}
-                            placeholder="ELO"
-                            value={elo}
-                            placeholderTextColor={COLORS.zcinzaClaro}
-                            selectionColor={COLORS.Turquoise}
-                          />
-
-                          <Modal
-                            animationType="slide"
-                            transparent={true}
-                            visible={modalVisible}
-                            onRequestClose={() => {
-                              setModalVisible(!modalVisible);
-                            }}>
-                            <View style={styles.centeredView}>
-                              <View style={styles.modalView}>
-                                <Text style={styles.modalFont}>
-                                  SELECIONE AS LANES DESEJADAS
+                      <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}
+                        onRequestClose={() => {
+                          setModalVisible(!modalVisible);
+                        }}>
+                        <View style={styles.centeredView}>
+                          <View style={styles.modalView}>
+                            <Text style={styles.modalFont}>
+                              SELECIONE AS LANES DESEJADAS
                                 </Text>
-                                <View style={styles.lanesContainer}>
-                                  <CheckBox
-                                    title="TOP"
-                                    onPress={() => setTop(!top)}
-                                    checked={top}
-                                    textStyle={styles.checkFont}
-                                    containerStyle={styles.checkContainer}
-                                  />
-                                  <CheckBox
-                                    title="JUNGLE"
-                                    onPress={() => setJungle(!jungle)}
-                                    checked={jungle}
-                                    textStyle={styles.checkFont}
-                                    containerStyle={styles.checkContainer}
-                                  />
-                                  <CheckBox
-                                    title="MID"
-                                    onPress={() => setMid(!mid)}
-                                    checked={mid}
-                                    textStyle={styles.checkFont}
-                                    containerStyle={styles.checkContainer}
-                                  />
-                                  <CheckBox
-                                    title="ADC"
-                                    onPress={() => setAdc(!adc)}
-                                    checked={adc}
-                                    textStyle={styles.checkFont}
-                                    containerStyle={styles.checkContainer}
-                                  />
-                                  <CheckBox
-                                    title="SUPORTE"
-                                    onPress={() => setSup(!sup)}
-                                    checked={sup}
-                                    textStyle={styles.checkFont}
-                                    containerStyle={styles.checkContainer}
-                                  />
-                                </View>
-                                <View style={styles.centralize}>
-                                  <TouchableHighlight
-                                    style={styles.closeModal}
-                                    onPress={() => {
-                                      setModalVisible(!modalVisible);
-                                    }}>
-                                    <Text style={styles.openModalFont}>CONFIRMAR</Text>
-                                  </TouchableHighlight>
-                                </View>
-                              </View>
+                            <View style={styles.lanesContainer}>
+                              <CheckBox
+                                title="TOP"
+                                onPress={() => setTop(!top)}
+                                checked={top}
+                                textStyle={styles.checkFont}
+                                containerStyle={styles.checkContainer}
+                              />
+                              <CheckBox
+                                title="JUNGLE"
+                                onPress={() => setJungle(!jungle)}
+                                checked={jungle}
+                                textStyle={styles.checkFont}
+                                containerStyle={styles.checkContainer}
+                              />
+                              <CheckBox
+                                title="MID"
+                                onPress={() => setMid(!mid)}
+                                checked={mid}
+                                textStyle={styles.checkFont}
+                                containerStyle={styles.checkContainer}
+                              />
+                              <CheckBox
+                                title="ADC"
+                                onPress={() => setAdc(!adc)}
+                                checked={adc}
+                                textStyle={styles.checkFont}
+                                containerStyle={styles.checkContainer}
+                              />
+                              <CheckBox
+                                title="SUPORTE"
+                                onPress={() => setSup(!sup)}
+                                checked={sup}
+                                textStyle={styles.checkFont}
+                                containerStyle={styles.checkContainer}
+                              />
                             </View>
-                          </Modal>
-
-                          <TouchableHighlight
-                            style={styles.openModal}
-                            onPress={() => {
-                              setModalVisible(true);
-                            }}>
-                            <Text style={styles.openModalFont}>SELECIONAR LANES</Text>
-                          </TouchableHighlight>
+                            <View style={styles.centralize}>
+                              <TouchableHighlight
+                                style={styles.closeModal}
+                                onPress={() => {
+                                  setModalVisible(!modalVisible);
+                                }}>
+                                <Text style={styles.openModalFont}>CONFIRMAR</Text>
+                              </TouchableHighlight>
+                            </View>
+                          </View>
                         </View>
-                      </View>
-                    </>
-                  )
+                      </Modal>
+
+                      <TouchableHighlight
+                        style={styles.openModal}
+                        onPress={() => {
+                          setModalVisible(true);
+                        }}>
+                        <Text style={styles.openModalFont}>SELECIONAR LANES</Text>
+                      </TouchableHighlight>
+                    </View>
+                  </View>
+                </>
+              )
             }
 
 
@@ -373,7 +417,7 @@ const SignUpEmail = () => {
   );
 };
 
-export default SignUpEmail;
+export default SignUp;
 
 const styles = StyleSheet.create({
   fonte: {

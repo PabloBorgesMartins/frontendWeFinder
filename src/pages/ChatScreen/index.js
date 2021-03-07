@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   Text,
   View,
@@ -18,22 +18,64 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 
 
+import LoaderView from '../../components/LoaderView'
 import * as COLORS from '../../../assets/colorations'
-
+import api from '../../services/api'
+import { useAuth } from '../../hooks/auth'
 
 import { data } from './chat'
 
 
-const ChatScreen = () => {
-  const [message, setMessage] = useState('');
-
+const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
 
+  const { user } = useAuth();
+
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [friendID, setFriendID] = useState(null);
+
+  const scrollElementRef = useRef(null);
+
+  const { chat_id, friendName } = route.params;
+
+  useEffect(() => {
+    async function loadStoragedData() {
+      await api.get(`/chat/messages/${chat_id}`)
+        .then(async (res) => {
+          console.log('Mensagens BUSCADO->', res.data)
+          setFriendID(res.data.friendID)
+          const teste = res.data.messages.map((item) => {
+            if (item.user_id === user.id) {
+              return {
+                ...item,
+                isMy: true
+              }
+            } else {
+              return {
+                ...item,
+                isMy: false
+              }
+            }
+          })
+          await setMessages(teste)
+        }).catch((err) => {
+          console.log('ERR do backend ->', err);
+          setLoading(false);
+        });
+      setLoading(false);
+    }
+    loadStoragedData();
+  }, [])
+
   function goToProfile() {
-    console.log('ta entrando')
-    navigation.navigate('ProfilePlayer');
+    navigation.navigate('ProfilePlayer', { user_id: friendID });
   }
 
+  if (loading) {
+    return <LoaderView />
+  }
 
   return (
     <View style={styles.background} >
@@ -48,11 +90,18 @@ const ChatScreen = () => {
           size={25}
         />
 
-        <Text style={[styles.fontMedium, { marginLeft: 20 }]}>Pinga</Text>
+        <Text style={[styles.fontMedium, { marginLeft: 20 }]}>{friendName}</Text>
       </TouchableOpacity>
 
-      <ScrollView style={{ flex: 1 }}>
-        {
+      <ScrollView
+        removeClippedSubviews={true}
+        style={{ flex: 1 }}
+        ref={scrollElementRef}
+        onContentSizeChange={() => {
+          scrollElementRef.current.scrollToEnd({animated: true, duration: 500});
+        }}
+      >
+        {/* {
           data.map((item) => {
             if (item) {
               return (
@@ -62,6 +111,22 @@ const ChatScreen = () => {
                     <Text style={styles.fontSmall}>{item.time}</Text>
                   </View>
                   <Text style={item.isMy ? styles.fontBigMy : styles.fontBig}>{item.user}</Text>
+                  <Text style={styles.fontSmall}>{item.message}</Text>
+                </View>
+              )
+            }
+          })
+        } */}
+        {
+          messages.map((item) => {
+            if (item) {
+              return (
+                <View key={item.id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
+                  <View style={item.isMy ? styles.triangleRight : styles.triangleLeft} />
+                  <View style={styles.timeContainer}>
+                    <Text style={styles.fontSmall}>{item.created_at.split(" ")[1]}</Text>
+                  </View>
+                  <Text style={item.isMy ? styles.fontBigMy : styles.fontBig}>{item.nickname}</Text>
                   <Text style={styles.fontSmall}>{item.message}</Text>
                 </View>
               )

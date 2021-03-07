@@ -15,7 +15,7 @@ const AuthProvider = ({ children }) => {
                 '@WeFinder:token',
                 '@WeFinder:user'
             ]);
-            console.log('USER -> ', JSON.parse(user[1]))
+            // console.log('USER -> ', JSON.parse(user[1]))
             if(token[1] && user[1]){
                 setData({ token: token[1], user: JSON.parse(user[1])})
             }
@@ -42,8 +42,7 @@ const AuthProvider = ({ children }) => {
       setData({ token, user });
       setLoading(false);
     }).catch((err) => {
-      console.log('ERR do backend -> ');
-      console.log(err);
+      console.log('ERR do backend -> ', err);
       setLoading(false);
       Alert.alert(
         'Erro ao fazer Login!',

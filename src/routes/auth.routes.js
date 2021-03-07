@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Login from '../pages/Login';
 import SignUpPersonal from '../pages/SignUpPersonal';
 import SignUpPlayer from '../pages/SignUpPlayer';
-import SignUpEmail from '../pages/SignUpEmail';
+import SignUp from '../pages/SignUp';
 
 
 import * as COLORS from '../../assets/colorations'
@@ -26,7 +26,7 @@ const AuthRoutes = () => (
       name="SignUpPersonal"
       component={SignUpPersonal}
     />
-    <Auth.Screen name="SignUpEmail" component={SignUpEmail} />
+    <Auth.Screen name="SignUp" component={SignUp} />
     <Auth.Screen name="SignUpPlayer" component={SignUpPlayer} />
   </Auth.Navigator>
 );

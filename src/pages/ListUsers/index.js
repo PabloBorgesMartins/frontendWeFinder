@@ -22,7 +22,15 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api'
 
 import * as COLORS from '../../../assets/colorations'
+import { eloImages } from '../../utils/getImages'
 import { data } from './users'
+
+const TopPhoto = require('../../../assets/images/lane/Top.png')
+const JunglePhoto = require('../../../assets/images/lane/Jungle.png')
+const MidPhoto = require('../../../assets/images/lane/Mid.png')
+const AdcPhoto = require('../../../assets/images/lane/Adc.png')
+const SupPhoto = require('../../../assets/images/lane/Suporte.png')
+
 
 const ListUsers = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -40,7 +48,7 @@ const ListUsers = () => {
     async function loadStoragedData() {
       await api.get('/users')
         .then(async (res) => {
-          console.log('USERS[0]->', res.data[0])
+          // console.log('USERS[0]->', res.data[0])
           setUsers(res.data)
         }).catch((err) => {
           console.log('ERR do backend ->', err);
@@ -93,7 +101,7 @@ const ListUsers = () => {
                   SELECIONE AS LANES DESEJADAS
                 </Text>
 
-                <View style={styles.lanesContainer}>
+                <View style={styles.modalLanesContainer}>
                   <CheckBox
                     title="TOP"
                     onPress={() => setTop(!top)}
@@ -158,21 +166,28 @@ const ListUsers = () => {
               if (item) {
                 return (
                   <View key={item.id} style={styles.playerBox}>
-                    <TouchableOpacity style={styles.header} onPress={() => navigation.navigate('ProfilePlayer')}>
-                      <Image source={require('../../../assets/images/rank/Diamante_4.png')} style={styles.avatar} />
+                    <TouchableOpacity style={styles.header} onPress={() => navigation.navigate('ProfilePlayer', { user_id: item.id })}>
+                      <Image source={eloImages(`${item.elo}_${item.division}`)} style={styles.avatar} />
                       <Text style={styles.fontBig}>{item.nickname}</Text>
                       <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{item.name}</Text>
+                      <Text style={styles.fontUserElo}>{`${item.elo} ${item.division}`}</Text>
                     </TouchableOpacity>
 
                     <View style={styles.line} />
 
-                    <Text style={styles.fontUserQualitys}>Elo: {`${item.elo} ${item.division}`}</Text>
-                    <Text style={styles.fontUserQualitys}>Lanes: {item.lanes}</Text>
-                    <Text style={styles.fontUserQualitys}>Pool: {item.champion_pool}</Text>
+                    {/* <Text style={styles.fontUserQualitys}>Pool: {item.champion_pool}</Text> */}
+
+                    <View style={styles.containerLanes}>
+                      {!!item.isTop && <Image source={TopPhoto} style={styles.lane} />}
+                      {!!item.isJungle && <Image source={JunglePhoto} style={styles.lane} />}
+                      {!!item.isMid && <Image source={MidPhoto} style={styles.lane} />}
+                      {!!item.isAdc && <Image source={AdcPhoto} style={styles.lane} />}
+                      {!!item.isSup && <Image source={SupPhoto} style={styles.lane} />}
+                    </View>
 
                     <View style={{ alignItems: 'center' }}>
                       <Button
-                        onPress={() => { }}
+                        onPress={() => navigation.navigate('ProfilePlayer', { user_id: item.id })}
                         buttonStyle={styles.buttonSelect}
                         titleStyle={styles.buttonFont}
                         title={'RECRUTAR'}
@@ -214,7 +229,16 @@ const styles = StyleSheet.create({
     fontFamily: 'MavenPro-Bold',
     color: COLORS.White,
     fontSize: 20,
-    marginVertical: 2
+    marginVertical: 2,
+  },
+
+  fontUserElo: {
+    fontFamily: 'MavenPro-Bold',
+    color: COLORS.White,
+    fontSize: 20,
+    marginTop: 20,
+    marginLeft: 5,
+    alignSelf: 'flex-start'
   },
 
   background: {
@@ -269,17 +293,32 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'flex-end',
     justifyContent: 'center',
-    height: 100,
-    paddingRight: 10
+    height: 120,
+    paddingRight: 10,
   },
 
   avatar: {
     top: 0,
-    left: 0,
+    left: 5,
     position: 'absolute',
     height: 80,
     width: 80,
     marginBottom: 10,
+  },
+
+  containerLanes: {
+    marginVertical: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
+    backgroundColor: 'transparent',
+  },
+
+  lane: {
+    marginHorizontal: 5,
+    width: 40,
+    height: 40,
+    tintColor: COLORS.White
   },
 
   buttonSelect: {
@@ -364,7 +403,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
   },
 
-  lanesContainer: {
+  modalLanesContainer: {
     marginVertical: 10,
   },
 });

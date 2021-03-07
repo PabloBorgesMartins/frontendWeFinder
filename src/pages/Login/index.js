@@ -41,7 +41,7 @@ const Login = () => {
   const navigation = useNavigation();
 
   function goToSignUp() {
-    navigation.navigate('SignUpEmail');
+    navigation.navigate('SignUp');
   }
 
   const { signIn } = useAuth();
