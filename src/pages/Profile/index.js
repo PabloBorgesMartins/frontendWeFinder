@@ -48,8 +48,8 @@ const Profile = () => {
           />
         </View>
         <Image source={eloImages(`${user.elo}_${user.division}`)} style={styles.avatar} />
-        <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{user.name}</Text>
-        <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{user.last_name}</Text>
+        <Text style={[styles.fontBig, { color: COLORS.Turquoise }]}>{user.nickname}</Text>
+        <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{`${user.name} ${user.last_name}`}</Text>
       </View>
 
       <View style={styles.line} />

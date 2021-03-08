@@ -121,7 +121,7 @@ const ChatScreen = ({ route }) => {
           messages.map((item) => {
             if (item) {
               return (
-                <View key={item.id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
+                <View key={item.message_id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
                   <View style={item.isMy ? styles.triangleRight : styles.triangleLeft} />
                   <View style={styles.timeContainer}>
                     <Text style={styles.fontSmall}>{item.created_at.split(" ")[1]}</Text>

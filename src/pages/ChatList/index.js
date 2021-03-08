@@ -65,7 +65,7 @@ const ChatList = () => {
             onPress={goToPlayerList}
             buttonStyle={styles.buttonSearch}
             titleStyle={styles.buttonText}
-            title={'PROCURAR PLAYERS'}
+            title={'PROCURAR JOGADORES'}
           />
         </View>
       ) : null}

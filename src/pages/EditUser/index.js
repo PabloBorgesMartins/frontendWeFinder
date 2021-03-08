@@ -305,7 +305,7 @@ const styles = StyleSheet.create({
 
   topBar: {
     height: 50,
-    backgroundColor: 'black',
+    backgroundColor: COLORS.zchumboEscuro,
     width: wp('100%'),
     paddingHorizontal: 10,
     flexDirection: 'row',

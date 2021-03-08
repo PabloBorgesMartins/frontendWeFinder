@@ -170,11 +170,10 @@ const ListUsers = () => {
                       <Image source={eloImages(`${item.elo}_${item.division}`)} style={styles.avatar} />
                       <Text style={styles.fontBig}>{item.nickname}</Text>
                       <Text style={[styles.fontSmall, { color: COLORS.zcolorBase }]}>{item.name}</Text>
-                      <Text style={styles.fontUserElo}>{`${item.elo} ${item.division}`}</Text>
                     </TouchableOpacity>
 
                     <View style={styles.line} />
-
+                    <Text style={styles.fontUserElo}>{`${item.elo} ${item.division}`}</Text>
                     {/* <Text style={styles.fontUserQualitys}>Pool: {item.champion_pool}</Text> */}
 
                     <View style={styles.containerLanes}>
@@ -236,6 +235,13 @@ const styles = StyleSheet.create({
     fontFamily: 'MavenPro-Bold',
     color: COLORS.White,
     fontSize: 20,
+    alignSelf: 'center'
+  },
+
+  fontUserElo2: {
+    fontFamily: 'MavenPro-Bold',
+    color: COLORS.White,
+    fontSize: 20,
     marginTop: 20,
     marginLeft: 5,
     alignSelf: 'flex-start'
@@ -293,12 +299,12 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'flex-end',
     justifyContent: 'center',
-    height: 120,
+    height: 100,
     paddingRight: 10,
   },
 
   avatar: {
-    top: 0,
+    top: 5,
     left: 5,
     position: 'absolute',
     height: 80,
