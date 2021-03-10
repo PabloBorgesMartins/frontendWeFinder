@@ -333,8 +333,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 30,
     borderColor: COLORS.zcinzaClaro,
-    borderRightWidth: 1,
-    borderBottomWidth: 1,
+    // borderRightWidth: 1,
+    // borderBottomWidth: 1,
   },
 
   buttonFont: {

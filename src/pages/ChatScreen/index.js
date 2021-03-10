@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import {
   Text,
   View,
@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   TextInput,
+  FlatList,
   Alert
 } from 'react-native';
 import {
@@ -16,12 +17,16 @@ import {
 } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-
+// import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
 
 import LoaderView from '../../components/LoaderView'
 import * as COLORS from '../../../assets/colorations'
 import api from '../../services/api'
 import { useAuth } from '../../hooks/auth'
+
+
+const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
 import { data } from './chat'
 
@@ -37,16 +42,21 @@ const ChatScreen = ({ route }) => {
   const [friendID, setFriendID] = useState(null);
 
   const scrollElementRef = useRef(null);
+  const inputRef = useRef(null)
 
   const { chat_id, friendName } = route.params;
 
   useEffect(() => {
+    console.log("type of chat_id ->", typeof (chat_id))
+    console.log("chat_id ->", chat_id)
+    console.log("type of user.id ->", typeof (user.id))
+    console.log("user.id ->", user.id)
     async function loadStoragedData() {
       await api.get(`/chat/messages/${chat_id}`)
         .then(async (res) => {
-          console.log('Mensagens BUSCADO->', res.data)
+          // console.log('Mensagens BUSCADO->', res.data)
           setFriendID(res.data.friendID)
-          const teste = res.data.messages.map((item) => {
+          const lista = res.data.messages.map((item) => {
             if (item.user_id === user.id) {
               return {
                 ...item,
@@ -59,7 +69,7 @@ const ChatScreen = ({ route }) => {
               }
             }
           })
-          await setMessages(teste)
+          await setMessages(lista)
         }).catch((err) => {
           console.log('ERR do backend ->', err);
           setLoading(false);
@@ -69,9 +79,78 @@ const ChatScreen = ({ route }) => {
     loadStoragedData();
   }, [])
 
+
+
+
+  /////////////////////FUNCIONALIDADES DO SOCKETIO///////////////////////////////////////
+
+  // Join chatroom
+  // NOME = ID do usuario Wefinder, SALA = ID do chat WeFinder
+  const socket = io("http://192.168.100.2:3335");
+  // const socket = io("http://192.168.100.2:3335", {
+  //   secure: true,
+  //   transports: ['websocket'],
+  // });
+  socket.emit("joinRoom", user.id, chat_id);
+
+  // Message from server
+  socket.on("message", (message) => {
+    console.log(`mensagem enviada por usuario de id -> ${message.username}`);
+    console.log(message);
+    outputMessage(message);
+  });
+
+  // Message submit
+  function handleSubmit() {
+    // event.preventDefault();
+    console.log("MENSAGEM DO APP WEFINDER ->", message)
+    // Emit message to server
+    socket.emit("chatMessage", message);
+
+    // Clear input
+    inputRef.current.clear();
+  }
+
+  // Output message to DOM
+  function outputMessage(message) {
+    // const newMessage = [{
+    //   nickname: message.username == user.id ? user.nickname : friendName,
+    //   message: message.text,
+    //   created_at: message.time,
+    //   isMy: message.username == user.id ? true : false
+    // }]
+    const newMessage = {
+      nickname: message.username == user.id ? user.nickname : friendName,
+      message: message.text,
+      created_at: message.time,
+      isMy: message.username == user.id ? true : false
+    }
+    const teste = messages.concat(newMessage)
+    console.log("passou aqui")
+    setMessages(teste);
+  }
+
+  function goBack() {
+    socket.close();
+    navigation.goBack();
+  }
+  /////////////////////////////////////////////////////////////////////////////////////
+
+  // useEffect(() => {
+  //   const teste = async () => {
+  //     const socket = await io("http://192.168.100.2:3335", {
+  //       secure: true,
+  //       transports: ['websocket'],
+  //     });
+  //     socket.emit("joinRoom", user.id, chat_id );
+  //   }
+  //   teste();
+  // }, [])
+
   function goToProfile() {
     navigation.navigate('ProfilePlayer', { user_id: friendID });
   }
+
 
   if (loading) {
     return <LoaderView />
@@ -84,7 +163,7 @@ const ChatScreen = ({ route }) => {
         onPress={() => goToProfile()}
       >
         <Icon
-          onPress={() => navigation.goBack()}
+          onPress={() => goBack()}
           name="arrow-left"
           color={COLORS.zcinzaClaro}
           size={25}
@@ -92,31 +171,37 @@ const ChatScreen = ({ route }) => {
 
         <Text style={[styles.fontMedium, { marginLeft: 20 }]}>{friendName}</Text>
       </TouchableOpacity>
-
-      <ScrollView
+      <FlatList
+        ref={scrollElementRef}
+        initialNumToRender={messages.length}
+        onContentSizeChange={() => scrollElementRef.current.scrollToEnd({ animated: true })}
+        data={messages}
+        style={{ flex: 1 }}
+        keyExtractor={(item, index) => index.toString()}
+        showsHorizontalScrollIndicator={true}
+        renderItem={({ item }) => {
+          return (
+            <View key={item.created_at} style={item.isMy ? styles.textBoxMy : styles.textBox}>
+              <View style={item.isMy ? styles.triangleRight : styles.triangleLeft} />
+              <View style={styles.timeContainer}>
+                <Text style={styles.fontSmall}>{item.created_at.split(" ")[1]}</Text>
+              </View>
+              <Text style={item.isMy ? styles.fontBigMy : styles.fontBig}>{item.nickname}</Text>
+              <Text style={styles.fontSmall}>{item.message}</Text>
+            </View>
+          )
+        }}
+      />
+      {/* <ScrollView
         removeClippedSubviews={true}
         style={{ flex: 1 }}
         ref={scrollElementRef}
         onContentSizeChange={() => {
-          scrollElementRef.current.scrollToEnd({animated: true, duration: 500});
+          scrollElementRef.current.scrollToEnd({ animated: true, duration: 500 });
         }}
       >
-        {/* {
-          data.map((item) => {
-            if (item) {
-              return (
-                <View key={item.id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
-                  <View style={item.isMy ? styles.triangleRight : styles.triangleLeft} />
-                  <View style={styles.timeContainer}>
-                    <Text style={styles.fontSmall}>{item.time}</Text>
-                  </View>
-                  <Text style={item.isMy ? styles.fontBigMy : styles.fontBig}>{item.user}</Text>
-                  <Text style={styles.fontSmall}>{item.message}</Text>
-                </View>
-              )
-            }
-          })
-        } */}
+       
+
         {
           messages.map((item) => {
             if (item) {
@@ -133,7 +218,9 @@ const ChatScreen = ({ route }) => {
             }
           })
         }
-      </ScrollView>
+
+      </ScrollView> */}
+
       <View style={styles.footer}>
         <TextInput
           onChangeText={(text) => setMessage(text)}
@@ -141,9 +228,15 @@ const ChatScreen = ({ route }) => {
           placeholder="Escreva uma mensagem"
           placeholderTextColor={COLORS.zcinzaClaro}
           selectionColor={COLORS.Turquoise}
+          ref={inputRef}
+          returnKeyType="send"
+          onSubmitEditing={() => {
+
+            handleSubmit();
+          }}
         />
         <Icon
-          onPress={() => { }}
+          onPress={() => handleSubmit()}
           name="chevron-circle-right"
           color={COLORS.zcinzaClaro}
           size={35}
