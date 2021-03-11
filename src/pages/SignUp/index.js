@@ -22,11 +22,13 @@ import {
 import { Input, Button, CheckBox } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
-import getValidationErrors from '../../utils/getValidationErrors'
+import { Picker } from '@react-native-community/picker';
 
+import getValidationErrors from '../../utils/getValidationErrors'
 import avatar from '../../../assets/images/avatarWeFinder.png';
 import api from '../../services/api'
 import * as COLORS from '../../../assets/colorations'
+import { useAuth } from '../../hooks/auth'
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -38,8 +40,10 @@ const SignUp = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [nick, setNick] = useState('');
   const [championPoll, setChampionPoll] = useState('');
-  const [elo, setElo] = useState('');
+  const [elo, setElo] = useState('Ferro');
+  const [division, setDivision] = useState('4');
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalEloVisible, setModalEloVisible] = useState(false);
   const [typePlayer, setTypePlayer] = useState(true);
   const [top, setTop] = useState(true);
   const [jungle, setJungle] = useState(true);
@@ -48,19 +52,12 @@ const SignUp = () => {
   const [sup, setSup] = useState(true);
 
 
-
   const [nivel, setNivel] = useState(0);
 
 
   const navigation = useNavigation();
+  const { signUp } = useAuth();
 
-  function goToSignUp() {
-    navigation.navigate('SignUpPersonal');
-  }
-
-  function goToHome() {
-    navigation.navigate('tabHome');
-  }
 
   function handleNivelMinus() {
     if (nivel > 0) {
@@ -73,16 +70,43 @@ const SignUp = () => {
   function handleNivel() {
     switch (nivel) {
       case 0:
-        validateRegistrationData()
+        validateRegistrationData();
         break;
 
       case 1:
-        Alert.alert("UH UH papai xego 222")
-        setNivel(nivel + 1)
+        validateUserData();
         break;
 
       default:
+        handleSignUp();
         break;
+    }
+  }
+
+  async function validateUserData() {
+    let data = {
+      name,
+      lastName,
+      birth,
+      phoneNumber
+    }
+
+    try {
+      const schema = Yup.object().shape({
+        name: Yup.string().required('Nome obrigatório!'),
+        lastName: Yup.string().required('Sobrenome obrigatório'),
+        birth: Yup.string(),
+        phoneNumber: Yup.string().required('whatsapp obrigatório!')
+      });
+
+      await schema.validate(data, {
+        abortEarly: false,
+      });
+
+      setNivel(nivel + 1)
+    } catch (error) {
+      const errors = getValidationErrors(error);
+      Alert.alert('Atencão!', errors[0])
     }
   }
 
@@ -114,42 +138,47 @@ const SignUp = () => {
         console.log('ERR checkemail ->', err);
         Alert.alert("Atenção!", "O email ja está cadastrado na plataforma!")
       });
+
+
     } catch (error) {
       const errors = getValidationErrors(error);
       Alert.alert('Atencão!', errors[0])
     }
   }
 
-  async function validateUserData() {
+  async function handleSignUp() {
     let data = {
-      email,
-      password,
-      passwordConfirmation
+      nick,
+      championPoll,
     }
 
     try {
       const schema = Yup.object().shape({
-        email: Yup.string().required('Email obrigatório!').email('Digite um email válido'),
-        password: Yup.string().required('Senha obrigatória').min(6, 'A senha deve ter no mínimo 6 caracteres!'),
-        passwordConfirmation: Yup.string()
-          .oneOf([Yup.ref('password'), null], 'Senha e confirmação de senha devem ser iguais!')
+        nick: Yup.string().required('Nickname obrigatório!'),
+        championPoll: Yup.string().required('Champion pool obrigatória!')
       });
 
       await schema.validate(data, {
         abortEarly: false,
       });
 
-      await api.post('/checkemail', {
-        email
-      }).then(async (res) => {
-        console.log('Message checkEmail->', res.data)
-        setNivel(nivel + 1)
-      }).catch((err) => {
-        console.log('ERR checkemail ->', err);
-        Alert.alert("Atenção!", "O email ja está cadastrado na plataforma!")
-      });
-
-      
+      await signUp({
+        email,
+        password,
+        name,
+        last_name: lastName,
+        whatsapp: phoneNumber,
+        nickname: nick,
+        isTop: top,
+        isJungle: jungle,
+        isMid: mid,
+        isAdc: adc,
+        isSup: sup,
+        champion_pool:championPoll,
+        elo,
+        division,
+        representative: typePlayer
+      })
     } catch (error) {
       const errors = getValidationErrors(error);
       Alert.alert('Atencão!', errors[0])
@@ -243,7 +272,7 @@ const SignUp = () => {
                       <TextInput
                         onChangeText={(text) => setPhoneNumber(text)}
                         style={styles.input}
-                        placeholder="TELEFONE"
+                        placeholder="WHATSAPP"
                         value={phoneNumber}
                         placeholderTextColor={COLORS.zcinzaClaro}
                         selectionColor={COLORS.Turquoise}
@@ -296,14 +325,7 @@ const SignUp = () => {
                         placeholderTextColor={COLORS.zcinzaClaro}
                         selectionColor={COLORS.Turquoise}
                       />
-                      <TextInput
-                        onChangeText={(text) => setElo(text)}
-                        style={styles.input}
-                        placeholder="ELO"
-                        value={elo}
-                        placeholderTextColor={COLORS.zcinzaClaro}
-                        selectionColor={COLORS.Turquoise}
-                      />
+
 
                       <Modal
                         animationType="slide"
@@ -366,6 +388,67 @@ const SignUp = () => {
                           </View>
                         </View>
                       </Modal>
+
+                      <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalEloVisible}
+                        onRequestClose={() => {
+                          setModalVisible(!modalEloVisible);
+                        }}>
+                        <View style={styles.centeredView}>
+                          <View style={styles.modalView}>
+                            <Text style={styles.modalFont}>
+                              SELECIONE AS LANES DESEJADAS
+                                </Text>
+                            <View style={styles.lanesContainer}>
+                              <Picker
+                                selectedValue={elo}
+                                mode="dropdown"
+                                style={{ height: 50, width: 200 }}
+                                onValueChange={(itemValue, itemIndex) =>
+                                  setElo(itemValue)
+                                }>
+                                <Picker.Item label="Ferro" value="ferro" />
+                                <Picker.Item label="Bronze" value="bronze" />
+                                <Picker.Item label="Prata" value="prata" />
+                                <Picker.Item label="Ouro" value="ouro" />
+                                <Picker.Item label="Platina" value="platina" />
+                                <Picker.Item label="Diamante" value="diamante" />
+                              </Picker>
+                              <Picker
+                                selectedValue={division}
+                                mode="dropdown"
+                                style={{ height: 50, width: 200 }}
+                                onValueChange={(itemValue, itemIndex) =>
+                                  setDivision(itemValue)
+                                }>
+                                <Picker.Item label="1" value={1} />
+                                <Picker.Item label="2" value={2} />
+                                <Picker.Item label="3" value={3} />
+                                <Picker.Item label="4" value={4} />
+                              </Picker>
+                            </View>
+                            <View style={styles.centralize}>
+                              <TouchableHighlight
+                                style={styles.closeModal}
+                                onPress={() => {
+                                  setModalEloVisible(!modalEloVisible);
+                                }}>
+                                <Text style={styles.openModalFont}>CONFIRMAR</Text>
+                              </TouchableHighlight>
+                            </View>
+                          </View>
+                        </View>
+                      </Modal>
+
+                      <TouchableHighlight
+                        style={styles.openModal}
+                        onPress={() => {
+                          setModalEloVisible(true);
+                        }}>
+                        <Text style={styles.openModalFont}>SELECIONAR ELO</Text>
+                      </TouchableHighlight>
 
                       <TouchableHighlight
                         style={styles.openModal}

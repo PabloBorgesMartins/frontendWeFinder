@@ -9,6 +9,7 @@ import {
   TouchableHighlight,
   Image,
   Modal,
+  Linking
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -24,6 +25,7 @@ import api from '../../services/api'
 import * as COLORS from '../../../assets/colorations'
 import { eloImages } from '../../utils/getImages'
 import { data } from './users'
+import { Alert } from 'react-native';
 
 const TopPhoto = require('../../../assets/images/lane/Top.png')
 const JunglePhoto = require('../../../assets/images/lane/Jungle.png')
@@ -41,6 +43,7 @@ const ListUsers = () => {
   const [sup, setSup] = useState(true);
   const [filterElo, setFilterElo] = useState('ouro');
   const [users, setUsers] = useState([]);
+  const [usersInitial, setUsersInitial] = useState([]);
 
   const navigation = useNavigation();
 
@@ -50,12 +53,48 @@ const ListUsers = () => {
         .then(async (res) => {
           // console.log('USERS[0]->', res.data[0])
           setUsers(res.data)
+          setUsersInitial(res.data)
         }).catch((err) => {
           console.log('ERR do backend ->', err);
         });
     }
     loadStoragedData();
   }, [])
+
+  function handleWhatsapp(user_phone) {
+    Linking.openURL(
+      `whatsapp://send?phone=${user_phone}&text=Ola, te encontrei no WeFinder!`
+    );
+  }
+
+  async function handleChat(user_id, friendName) {
+    api.post('/chat', {
+      userSecondary: user_id
+    }).then(async (res) => {
+      const { chat_id } = res.data;
+      navigation.navigate('ChatScreen', { chat_id, friendName })
+    }).catch((err) => {
+      Alert.alert("Atenção!", "Falha ao criar chat")
+    });
+  }
+
+  function handleApplyFilter() {
+    let comparator = [...usersInitial]
+    // const news = response.data.filter((item) => !item.comprada)
+    let usersFinal = comparator.filter((item) => {
+      if (
+        (item.isTop && top) ||
+        (item.isJungle && jungle) ||
+        (item.isMid && mid) ||
+        (item.isAdc && adc) ||
+        (item.isSup && sup)
+      ) {
+        return item
+      }
+    })
+    setUsers(usersFinal)
+    setModalVisible(!modalVisible);
+  }
 
   return (
     <>
@@ -143,7 +182,7 @@ const ListUsers = () => {
                   <TouchableHighlight
                     style={styles.closeModal}
                     onPress={() => {
-                      setModalVisible(!modalVisible);
+                      handleApplyFilter();
                     }}>
                     <Text style={styles.openModalFont}>CONFIRMAR</Text>
                   </TouchableHighlight>
@@ -184,12 +223,18 @@ const ListUsers = () => {
                       {!!item.isSup && <Image source={SupPhoto} style={styles.lane} />}
                     </View>
 
-                    <View style={{ alignItems: 'center' }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-evenly' }}>
                       <Button
-                        onPress={() => navigation.navigate('ProfilePlayer', { user_id: item.id })}
+                        onPress={() => handleChat(item.id)}
                         buttonStyle={styles.buttonSelect}
                         titleStyle={styles.buttonFont}
                         title={'RECRUTAR'}
+                      />
+                      <Button
+                        onPress={() => handleWhatsapp(item.whatsapp, item.name)}
+                        buttonStyle={[styles.buttonSelect, { backgroundColor: '#25d366' }]}
+                        titleStyle={styles.buttonFont}
+                        title={'WHATSAPP'}
                       />
                     </View>
                   </View>
@@ -331,7 +376,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: COLORS.Turquoise,
     borderRadius: 5,
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     borderColor: COLORS.zcinzaClaro,
     // borderRightWidth: 1,
     // borderBottomWidth: 1,

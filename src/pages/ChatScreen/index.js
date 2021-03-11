@@ -28,18 +28,21 @@ import { useAuth } from '../../hooks/auth'
 
 const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
 
-import { data } from './chat'
-
+// import { data } from './chat'
+let data2 = []
 
 const ChatScreen = ({ route }) => {
   const navigation = useNavigation();
 
   const { user } = useAuth();
 
+  
+
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [friendID, setFriendID] = useState(null);
+  const [sockett, setSocket] = useState(null);
 
   const scrollElementRef = useRef(null);
   const inputRef = useRef(null)
@@ -69,6 +72,7 @@ const ChatScreen = ({ route }) => {
               }
             }
           })
+          data2= lista;
           await setMessages(lista)
         }).catch((err) => {
           console.log('ERR do backend ->', err);
@@ -86,66 +90,83 @@ const ChatScreen = ({ route }) => {
 
   // Join chatroom
   // NOME = ID do usuario Wefinder, SALA = ID do chat WeFinder
-  const socket = io("http://192.168.100.2:3335");
-  // const socket = io("http://192.168.100.2:3335", {
-  //   secure: true,
-  //   transports: ['websocket'],
-  // });
-  socket.emit("joinRoom", user.id, chat_id);
+  // const socket = io("http://192.168.100.2:3335");
+  // // const socket = io("http://192.168.100.2:3335", {
+  // //   secure: true,
+  // //   transports: ['websocket'],
+  // // });
+  // socket.emit("joinRoom", user.id, chat_id);
 
   // Message from server
-  socket.on("message", (message) => {
-    console.log(`mensagem enviada por usuario de id -> ${message.username}`);
-    console.log(message);
-    outputMessage(message);
-  });
+  // sockett.on("message", (message) => {
+  //   console.log(`mensagem enviada por usuario de id -> ${message.username}`);
+  //   console.log(message);
+  //   outputMessage(message);
+  // });
 
   // Message submit
   function handleSubmit() {
     // event.preventDefault();
     console.log("MENSAGEM DO APP WEFINDER ->", message)
     // Emit message to server
-    socket.emit("chatMessage", message);
+    sockett.emit("chatMessage", message);
 
     // Clear input
     inputRef.current.clear();
+    setMessage("")
   }
 
   // Output message to DOM
-  function outputMessage(message) {
+  async function outputMessage(message) {
     // const newMessage = [{
     //   nickname: message.username == user.id ? user.nickname : friendName,
     //   message: message.text,
     //   created_at: message.time,
-    //   isMy: message.username == user.id ? true : false
+    //   isMy: message.username == user.id ? true : false,
+    //   message_id: Math.random()
     // }]
-    const newMessage = {
+    const newMessage = await {
       nickname: message.username == user.id ? user.nickname : friendName,
       message: message.text,
       created_at: message.time,
       isMy: message.username == user.id ? true : false
     }
-    const teste = messages.concat(newMessage)
-    console.log("passou aqui")
+    const teste = [...messages];
+    await teste.push(newMessage);
+    data2.push(newMessage)
     setMessages(teste);
   }
 
   function goBack() {
-    socket.close();
+    sockett.close();
     navigation.goBack();
   }
   /////////////////////////////////////////////////////////////////////////////////////
 
-  // useEffect(() => {
-  //   const teste = async () => {
-  //     const socket = await io("http://192.168.100.2:3335", {
-  //       secure: true,
-  //       transports: ['websocket'],
-  //     });
-  //     socket.emit("joinRoom", user.id, chat_id );
-  //   }
-  //   teste();
-  // }, [])
+  useEffect(() => {
+    setSocket(io("http://192.168.100.2:3335"))
+  }, [])
+
+  useEffect(() => {
+    console.log("Esse é messages->", messages)
+  }, [messages])
+
+
+  useEffect(() => {
+    if (sockett != null) {
+      sockett.emit("joinRoom", user.id, chat_id);
+      sockett.on("message", (message) => {
+        console.log(`mensagem enviada por usuario de id -> ${message.username}`);
+        console.log(message);
+        outputMessage(message);
+      });
+    }
+
+  }, [sockett])
+
+
+
+
 
   function goToProfile() {
     navigation.navigate('ProfilePlayer', { user_id: friendID });
@@ -171,7 +192,7 @@ const ChatScreen = ({ route }) => {
 
         <Text style={[styles.fontMedium, { marginLeft: 20 }]}>{friendName}</Text>
       </TouchableOpacity>
-      <FlatList
+      {/* <FlatList
         ref={scrollElementRef}
         initialNumToRender={messages.length}
         onContentSizeChange={() => scrollElementRef.current.scrollToEnd({ animated: true })}
@@ -191,8 +212,8 @@ const ChatScreen = ({ route }) => {
             </View>
           )
         }}
-      />
-      {/* <ScrollView
+      /> */}
+      <ScrollView
         removeClippedSubviews={true}
         style={{ flex: 1 }}
         ref={scrollElementRef}
@@ -203,7 +224,7 @@ const ChatScreen = ({ route }) => {
        
 
         {
-          messages.map((item) => {
+          data2.map((item) => {
             if (item) {
               return (
                 <View key={item.message_id} style={item.isMy ? styles.textBoxMy : styles.textBox}>
@@ -219,7 +240,7 @@ const ChatScreen = ({ route }) => {
           })
         }
 
-      </ScrollView> */}
+      </ScrollView>
 
       <View style={styles.footer}>
         <TextInput
